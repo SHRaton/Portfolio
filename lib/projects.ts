@@ -27,7 +27,7 @@ export const projects: Project[] = [
     featured: true,
     icon: '🎓',
     category: 'Full-Stack',
-    homepageUrl: 'https://milo-web-three.vercel.app',
+    homepageUrl: 'https://milo-education.fr',
   },
   {
     title: 'R-Type',
