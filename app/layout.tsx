@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import StarField from '@/components/StarField'
 
 export const metadata: Metadata = {
   title: 'Alexandre Vittenet — Portfolio',
@@ -24,6 +25,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="antialiased noise">
+        <StarField />
         <div className="orb orb-1" />
         <div className="orb orb-2" />
         <div className="orb orb-3" />
