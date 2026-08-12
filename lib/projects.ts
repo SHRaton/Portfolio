@@ -7,12 +7,28 @@ export interface Project {
   language: string
   languageColor: string
   githubUrl: string
+  homepageUrl?: string
   featured: boolean
   icon: string
   category: string
 }
 
 export const projects: Project[] = [
+  {
+    title: 'Milo',
+    slug: 'milo',
+    description: 'Plateforme d\'apprentissage interactive — EIP Epitech 4e & 5e année.',
+    longDesc:
+      'Projet Innovant Epitech (EIP) sur 2 ans. Application web et mobile complète pour l\'apprentissage interactif : parcours pédagogiques, quiz, missions, duels entre amis, OCR de documents, et interactions 3D avec le personnage Milo via Three.js. Interface parent, espace étudiant, et génération de QCM par IA.',
+    tags: ['React 19', 'Three.js', 'TypeScript', 'React Native', 'Expo', 'Zustand', 'TanStack Query', 'Tailwind', 'EIP'],
+    language: 'TypeScript',
+    languageColor: '#3178c6',
+    githubUrl: 'https://github.com/orgs/Education-Milo/repositories',
+    featured: true,
+    icon: '🎓',
+    category: 'Full-Stack',
+    homepageUrl: 'https://milo-web-three.vercel.app',
+  },
   {
     title: 'R-Type',
     slug: 'rtype',
