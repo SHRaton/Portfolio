@@ -2,72 +2,60 @@
 
 import { useEffect, useRef } from 'react'
 
+// --- Perspective projection config ---
+const FOCAL = 600        // focal length: higher = more zoom, less distortion
+const MAX_CAM_Z = 2800   // camera travel distance (scroll 0→100%)
+const MIN_REL_Z = 8      // clip planes closer than this (avoids singularity)
+
 interface PlanetDef {
   name: string
-  baseColor: string
-  highlightColor: string
-  shadowColor: string
-  maxRadius: number   // fraction of min(width, height)
-  offsetX: number     // fraction of width from center (-0.5 to 0.5)
-  offsetY: number     // fraction of height from center
+  worldZ: number      // depth position in 3D world
+  worldX: number      // lateral world offset (determines which side it flies past)
+  worldY: number      // vertical world offset
+  worldRadius: number // sphere radius in world units
+  color: string
+  highlight: string
+  shadow: string
   hasRings?: boolean
-  ringColor?: string
-  ringInner?: number  // ring inner radius multiplier
-  ringOuter?: number  // ring outer radius multiplier
+  ringInner?: number  // multiplier of worldRadius
+  ringOuter?: number
+  ringTilt?: number
   stripes?: { color: string; weight: number }[]
-  spots?: { cx: number; cy: number; r: number; color: string }[]
+  continents?: { nx: number; ny: number; nr: number; color: string }[]
 }
 
+// Planets spread along Z axis — all visible at scroll=0, each flies past in order
+// worldRadius is tuned so all appear as ~5-18px dots at scroll=0
 const PLANETS: PlanetDef[] = [
   {
     name: 'Mercure',
-    baseColor: '#8c8c8c',
-    highlightColor: '#c8c8c8',
-    shadowColor: '#3a3a3a',
-    maxRadius: 0.13,
-    offsetX: 0.15,
-    offsetY: -0.1,
+    worldZ: 300, worldX: -80, worldY: -60, worldRadius: 3.6,
+    color: '#8c8c8c', highlight: '#c8c8c8', shadow: '#3a3a3a',
   },
   {
     name: 'Vénus',
-    baseColor: '#dfc27d',
-    highlightColor: '#f5e6b8',
-    shadowColor: '#907030',
-    maxRadius: 0.19,
-    offsetX: -0.13,
-    offsetY: 0.12,
+    worldZ: 600, worldX: 100, worldY: 80, worldRadius: 8.4,
+    color: '#dfc27d', highlight: '#f5e6b8', shadow: '#907030',
   },
   {
     name: 'Terre',
-    baseColor: '#2a6db5',
-    highlightColor: '#6ab0f0',
-    shadowColor: '#0d2a50',
-    maxRadius: 0.21,
-    offsetX: 0.08,
-    offsetY: -0.12,
-    spots: [
-      { cx: -0.15, cy: -0.2, r: 0.28, color: '#2d8a45' },
-      { cx: 0.25, cy: 0.1, r: 0.2, color: '#2d8a45' },
-      { cx: -0.05, cy: 0.3, r: 0.18, color: '#3a9a50' },
+    worldZ: 900, worldX: -110, worldY: -80, worldRadius: 10.8,
+    color: '#2a6db5', highlight: '#6ab0f0', shadow: '#0d2a50',
+    continents: [
+      { nx: -0.15, ny: -0.2, nr: 0.28, color: '#2d8a45' },
+      { nx: 0.25, ny: 0.1, nr: 0.22, color: '#3a9a50' },
+      { nx: -0.05, ny: 0.32, nr: 0.2, color: '#2d8a45' },
     ],
   },
   {
     name: 'Mars',
-    baseColor: '#b5391a',
-    highlightColor: '#e07050',
-    shadowColor: '#600c00',
-    maxRadius: 0.15,
-    offsetX: -0.16,
-    offsetY: 0.06,
+    worldZ: 1200, worldX: 120, worldY: 65, worldRadius: 7.2,
+    color: '#b5391a', highlight: '#e07050', shadow: '#600c00',
   },
   {
     name: 'Jupiter',
-    baseColor: '#c8933a',
-    highlightColor: '#e8b860',
-    shadowColor: '#704818',
-    maxRadius: 0.36,
-    offsetX: 0.06,
-    offsetY: -0.06,
+    worldZ: 1500, worldX: -90, worldY: 110, worldRadius: 45,
+    color: '#c8933a', highlight: '#e8b860', shadow: '#704818',
     stripes: [
       { color: '#c8933a', weight: 2 },
       { color: '#9a5c20', weight: 1.2 },
@@ -82,154 +70,132 @@ const PLANETS: PlanetDef[] = [
   },
   {
     name: 'Saturne',
-    baseColor: '#e2d480',
-    highlightColor: '#f5edbb',
-    shadowColor: '#a09040',
-    maxRadius: 0.25,
-    offsetX: -0.1,
-    offsetY: 0.1,
-    hasRings: true,
-    ringColor: '#c8b060',
-    ringInner: 1.3,
-    ringOuter: 2.3,
+    worldZ: 1800, worldX: 110, worldY: -90, worldRadius: 35,
+    color: '#e2d480', highlight: '#f5edbb', shadow: '#a09040',
+    hasRings: true, ringInner: 1.3, ringOuter: 2.2, ringTilt: 0.3,
   },
   {
     name: 'Uranus',
-    baseColor: '#6dd8e8',
-    highlightColor: '#a8f0f8',
-    shadowColor: '#2888a0',
-    maxRadius: 0.22,
-    offsetX: 0.14,
-    offsetY: -0.04,
-    hasRings: true,
-    ringColor: '#80c8d8',
-    ringInner: 1.25,
-    ringOuter: 1.7,
+    worldZ: 2100, worldX: -130, worldY: 65, worldRadius: 25,
+    color: '#6dd8e8', highlight: '#a8f0f8', shadow: '#2888a0',
+    hasRings: true, ringInner: 1.2, ringOuter: 1.65, ringTilt: 0.15,
   },
   {
     name: 'Neptune',
-    baseColor: '#3050d8',
-    highlightColor: '#6080ff',
-    shadowColor: '#0c1880',
-    maxRadius: 0.22,
-    offsetX: -0.08,
-    offsetY: -0.12,
+    worldZ: 2400, worldX: 95, worldY: -105, worldRadius: 24,
+    color: '#3050d8', highlight: '#6080ff', shadow: '#0c1880',
   },
 ]
 
-function smoothstep(t: number): number {
-  return t * t * (3 - 2 * t)
-}
-
-function clamp(v: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, v))
-}
-
 function drawPlanet(
   ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
+  sx: number, sy: number,   // screen position
   radius: number,
   planet: PlanetDef,
-  alpha: number,
+  w: number, h: number,     // canvas dimensions (for culling)
 ) {
-  if (radius < 1 || alpha < 0.01) return
-  ctx.save()
-  ctx.globalAlpha = alpha
+  // Cull: if center is so far off-screen that even the ring is invisible, skip
+  const maxExtent = radius * (planet.ringOuter ?? 1) + 40
+  if (
+    sx + maxExtent < 0 || sx - maxExtent > w ||
+    sy + maxExtent < 0 || sy - maxExtent > h
+  ) return
 
-  // Back half of rings (Saturn/Uranus)
+  ctx.save()
+
+  // --- Back half of rings ---
   if (planet.hasRings) {
     const ro = radius * (planet.ringOuter ?? 2.2)
     const ri = radius * (planet.ringInner ?? 1.3)
-    const tilt = 0.32
+    const tilt = planet.ringTilt ?? 0.3
     ctx.save()
-    ctx.globalAlpha = alpha * 0.55
-    for (let r = ri; r <= ro; r += 1.5) {
+    ctx.globalAlpha = 0.6
+    for (let r = ri; r <= ro; r += Math.max(1, radius * 0.018)) {
       const t = (r - ri) / (ro - ri)
-      const brightness = Math.floor(180 + t * 50)
-      ctx.strokeStyle = `rgb(${brightness},${Math.floor(brightness * 0.9)},${Math.floor(brightness * 0.6)})`
-      ctx.lineWidth = 1.5
+      const b = Math.floor(160 + t * 60)
+      ctx.strokeStyle = `rgb(${b},${Math.floor(b * 0.88)},${Math.floor(b * 0.52)})`
+      ctx.lineWidth = Math.max(0.8, radius * 0.012)
       ctx.beginPath()
-      ctx.ellipse(cx, cy, r, r * tilt, 0, Math.PI, 2 * Math.PI)
+      ctx.ellipse(sx, sy, r, r * tilt, 0, Math.PI, 2 * Math.PI)
       ctx.stroke()
     }
     ctx.restore()
   }
 
-  // Clip circle for sphere
+  // --- Clip to sphere ---
   ctx.beginPath()
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+  ctx.arc(sx, sy, radius, 0, Math.PI * 2)
   ctx.clip()
 
-  // Base fill
-  ctx.fillStyle = planet.baseColor
-  ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2)
+  // Base color
+  ctx.fillStyle = planet.color
+  ctx.fillRect(sx - radius, sy - radius, radius * 2, radius * 2)
 
-  // Jupiter / stripe planets
+  // Horizontal stripes (Jupiter)
   if (planet.stripes) {
-    const totalWeight = planet.stripes.reduce((s, st) => s + st.weight, 0)
-    let yOff = cy - radius
+    const total = planet.stripes.reduce((s, st) => s + st.weight, 0)
+    let yy = sy - radius
     for (const stripe of planet.stripes) {
-      const h = (radius * 2 * stripe.weight) / totalWeight
+      const sh = (radius * 2 * stripe.weight) / total
       ctx.fillStyle = stripe.color
-      ctx.fillRect(cx - radius, yOff, radius * 2, h)
-      yOff += h
+      ctx.fillRect(sx - radius, yy, radius * 2, sh)
+      yy += sh
     }
   }
 
   // Earth continents
-  if (planet.spots) {
-    for (const spot of planet.spots) {
+  if (planet.continents) {
+    for (const c of planet.continents) {
       ctx.beginPath()
-      ctx.arc(cx + spot.cx * radius, cy + spot.cy * radius, spot.r * radius, 0, Math.PI * 2)
-      ctx.fillStyle = spot.color
+      ctx.arc(sx + c.nx * radius, sy + c.ny * radius, c.nr * radius, 0, Math.PI * 2)
+      ctx.fillStyle = c.color
       ctx.fill()
     }
   }
 
-  // Sphere shading gradient (highlight top-left + shadow bottom-right)
+  // 3D shading gradient (highlight top-left → shadow bottom-right)
   const grad = ctx.createRadialGradient(
-    cx - radius * 0.35, cy - radius * 0.35, radius * 0.05,
-    cx + radius * 0.15, cy + radius * 0.15, radius * 1.1,
+    sx - radius * 0.35, sy - radius * 0.35, radius * 0.05,
+    sx + radius * 0.2, sy + radius * 0.2, radius * 1.1,
   )
-  grad.addColorStop(0, planet.highlightColor + '70')
-  grad.addColorStop(0.45, 'transparent')
-  grad.addColorStop(1, planet.shadowColor + 'cc')
+  grad.addColorStop(0, planet.highlight + '72')
+  grad.addColorStop(0.4, 'transparent')
+  grad.addColorStop(1, planet.shadow + 'cc')
   ctx.fillStyle = grad
-  ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2)
+  ctx.fillRect(sx - radius, sy - radius, radius * 2, radius * 2)
 
   ctx.restore()
 
-  // Front half of rings
+  // --- Front half of rings ---
   if (planet.hasRings) {
     const ro = radius * (planet.ringOuter ?? 2.2)
     const ri = radius * (planet.ringInner ?? 1.3)
-    const tilt = 0.32
+    const tilt = planet.ringTilt ?? 0.3
     ctx.save()
-    ctx.globalAlpha = alpha * 0.55
-    for (let r = ri; r <= ro; r += 1.5) {
+    ctx.globalAlpha = 0.6
+    for (let r = ri; r <= ro; r += Math.max(1, radius * 0.018)) {
       const t = (r - ri) / (ro - ri)
-      const brightness = Math.floor(180 + t * 50)
-      ctx.strokeStyle = `rgb(${brightness},${Math.floor(brightness * 0.9)},${Math.floor(brightness * 0.6)})`
-      ctx.lineWidth = 1.5
+      const b = Math.floor(160 + t * 60)
+      ctx.strokeStyle = `rgb(${b},${Math.floor(b * 0.88)},${Math.floor(b * 0.52)})`
+      ctx.lineWidth = Math.max(0.8, radius * 0.012)
       ctx.beginPath()
-      ctx.ellipse(cx, cy, r, r * tilt, 0, 0, Math.PI)
+      ctx.ellipse(sx, sy, r, r * tilt, 0, 0, Math.PI)
       ctx.stroke()
     }
     ctx.restore()
   }
 
-  // Planet name label — appears as planet grows
-  if (radius > 30) {
-    const labelAlpha = clamp((radius - 30) / 60, 0, 1) * alpha
+  // --- Name label (appears when planet is big enough) ---
+  if (radius > 25) {
+    const labelAlpha = Math.min(1, (radius - 25) / 50)
+    const fontSize = Math.min(18, Math.max(11, radius * 0.15))
+    const labelY = sy + radius * (planet.hasRings ? (planet.ringOuter ?? 2.2) * (planet.ringTilt ?? 0.3) + 0.15 : 1.15) + fontSize + 4
     ctx.save()
     ctx.globalAlpha = labelAlpha
-    ctx.font = `${clamp(radius * 0.18, 12, 22)}px Inter, system-ui, sans-serif`
-    ctx.fillStyle = '#e2e8f0'
+    ctx.font = `500 ${fontSize}px Inter, system-ui, sans-serif`
+    ctx.fillStyle = '#cbd5e1'
     ctx.textAlign = 'center'
-    ctx.letterSpacing = '0.1em'
-    const labelY = cy + radius * (planet.hasRings ? (planet.ringOuter ?? 2.2) * 0.32 + 0.2 : 1.15) + 20
-    ctx.fillText(planet.name.toUpperCase(), cx, labelY)
+    ctx.fillText(planet.name.toUpperCase(), sx, labelY)
     ctx.restore()
   }
 
@@ -247,10 +213,10 @@ export default function SolarSystem() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let width = window.innerWidth
-    let height = window.innerHeight
-    canvas.width = width
-    canvas.height = height
+    let w = window.innerWidth
+    let h = window.innerHeight
+    canvas.width = w
+    canvas.height = h
 
     const onScroll = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight
@@ -259,45 +225,32 @@ export default function SolarSystem() {
 
     const onResize = () => {
       if (!canvas) return
-      width = window.innerWidth
-      height = window.innerHeight
-      canvas.width = width
-      canvas.height = height
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w
+      canvas.height = h
     }
 
     const render = () => {
-      ctx.clearRect(0, 0, width, height)
+      ctx.clearRect(0, 0, w, h)
 
-      const progress = scrollRef.current
-      const zoneSize = 1 / PLANETS.length
-      const minDim = Math.min(width, height)
+      // Camera has moved cameraZ units forward
+      const cameraZ = scrollRef.current * MAX_CAM_Z
+      const cx = w / 2
+      const cy = h / 2
 
-      for (let i = 0; i < PLANETS.length; i++) {
-        const planet = PLANETS[i]
-        const zoneStart = i * zoneSize
+      for (const planet of PLANETS) {
+        const relZ = planet.worldZ - cameraZ
+        if (relZ < MIN_REL_Z) continue // behind or too close to camera
 
-        // Local progress in this planet's zone [0, 1]
-        const local = clamp((progress - zoneStart) / zoneSize, 0, 1)
+        const scale = FOCAL / relZ
+        const sx = cx + planet.worldX * scale
+        const sy = cy + planet.worldY * scale
+        const radius = planet.worldRadius * scale
 
-        // Alpha: fade in 0→0.3, full 0.3→0.72, fade out 0.72→1
-        let alpha: number
-        if (local < 0.3) alpha = local / 0.3
-        else if (local < 0.72) alpha = 1
-        else alpha = 1 - (local - 0.72) / 0.28
-        alpha = clamp(alpha, 0, 1)
+        if (radius < 0.5) continue // too far to be visible
 
-        if (alpha < 0.01) continue
-
-        // Radius: grows with smoothstep easing (exponential approach)
-        const eased = smoothstep(local)
-        const minR = minDim * planet.maxRadius * 0.025
-        const maxR = minDim * planet.maxRadius
-        const radius = minR + (maxR - minR) * eased
-
-        const cx = width / 2 + planet.offsetX * width
-        const cy = height / 2 + planet.offsetY * height
-
-        drawPlanet(ctx, cx, cy, radius, planet, alpha * 0.82)
+        drawPlanet(ctx, sx, sy, radius, planet, w, h)
       }
 
       rafRef.current = requestAnimationFrame(render)
