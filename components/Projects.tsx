@@ -96,7 +96,7 @@ export default function Projects() {
 
 function FeaturedCard({ project }: { project: Project }) {
   return (
-    <div className="gradient-border glass rounded-2xl p-6 transition-all duration-300 flex flex-col gap-4 group hover:bg-white/[0.08] hover:border-purple-500/40 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]">
+    <div className="glass glass-hover rounded-2xl p-6 transition-all duration-300 flex flex-col gap-4 group">
       <div className="flex items-start justify-between">
         <div className="text-4xl">{project.icon}</div>
         <span className="tag">{project.category}</span>
