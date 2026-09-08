@@ -232,6 +232,13 @@ body {
   transform: translateY(-2px);
 }
 
+/* Custom cursor — hide default only on mouse devices */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* Noise texture overlay */
 .noise::after {
   content: '';
