@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 import { SectionTitle } from './About'
 
 const skills = [
-  { name: 'C / C++', level: 85, category: 'Système', color: 'from-blue-500 to-cyan-400' },
-  { name: 'Python', level: 75, category: 'Scripting', color: 'from-yellow-500 to-orange-400' },
-  { name: 'JavaScript', level: 70, category: 'Web', color: 'from-yellow-400 to-yellow-300' },
-  { name: 'CMake / Make', level: 75, category: 'Build', color: 'from-purple-500 to-pink-400' },
-  { name: 'SFML / SDL', level: 70, category: 'Graphics', color: 'from-green-500 to-emerald-400' },
-  { name: 'Git / GitHub', level: 80, category: 'Outils', color: 'from-orange-500 to-red-400' },
-  { name: 'Réseau TCP/UDP', level: 72, category: 'Système', color: 'from-cyan-500 to-blue-400' },
-  { name: 'Cybersécurité', level: 60, category: 'Sécurité', color: 'from-red-500 to-pink-400' },
+  { name: 'C / C++', level: 85, category: 'Système', color: 'from-violet-700 to-violet-400' },
+  { name: 'Python', level: 75, category: 'Scripting', color: 'from-purple-700 to-violet-500' },
+  { name: 'JavaScript', level: 70, category: 'Web', color: 'from-fuchsia-700 to-violet-400' },
+  { name: 'CMake / Make', level: 75, category: 'Build', color: 'from-violet-600 to-purple-400' },
+  { name: 'SFML / SDL', level: 70, category: 'Graphics', color: 'from-purple-600 to-violet-400' },
+  { name: 'Git / GitHub', level: 80, category: 'Outils', color: 'from-violet-500 to-fuchsia-400' },
+  { name: 'Réseau TCP/UDP', level: 72, category: 'Système', color: 'from-fuchsia-600 to-violet-500' },
+  { name: 'Cybersécurité', level: 60, category: 'Sécurité', color: 'from-violet-800 to-purple-500' },
 ]
 
 const tools = [
@@ -100,7 +100,7 @@ export default function Skills() {
                   'Analyse numérique',
                   'Raytracing',
                 ].map((domain) => (
-                  <span key={domain} className="tag-cyan tag">
+                  <span key={domain} className="tag">
                     {domain}
                   </span>
                 ))}

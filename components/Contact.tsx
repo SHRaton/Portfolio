@@ -104,7 +104,7 @@ export default function Contact() {
                 <span className="text-sm text-slate-300">Stage / Durée : 6 mois</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="w-2 h-2 rounded-full bg-violet-400" />
                 <span className="text-sm text-slate-300">Remote ou présentiel</span>
               </div>
             </div>

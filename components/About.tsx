@@ -61,7 +61,7 @@ export default function About() {
             </p>
             <p className="text-slate-400 leading-relaxed">
               En dehors de l&apos;école, je m&apos;intéresse à la{' '}
-              <span className="text-cyan-400">cybersécurité</span>, aux game jams et à l&apos;exploration des
+              <span className="text-violet-400">cybersécurité</span>, aux game jams et à l&apos;exploration des
               architectures logicielles modernes.
             </p>
 
@@ -98,7 +98,7 @@ export function SectionTitle({ label, title }: { label: string; title: string })
     <div>
       <span className="font-mono text-xs tracking-widest text-purple-400">{label}</span>
       <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">{title}</h2>
-      <div className="mt-3 w-16 h-1 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500" />
+      <div className="mt-3 w-16 h-1 rounded-full bg-gradient-to-r from-violet-400 to-purple-700" />
     </div>
   )
 }

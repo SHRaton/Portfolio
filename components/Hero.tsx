@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+import StarField from './StarField'
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -13,16 +14,24 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 px-6">
+    <section className="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
+      {/* Stars — contained to this section only */}
+      <StarField />
+
+      {/* Ambient orbs — contained to hero */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+
       <div
         ref={containerRef}
-        className="section-animate max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center"
+        className="section-animate relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center"
       >
         {/* Left: Text */}
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-mono text-sm text-emerald-400 tracking-widest">DISPONIBLE</span>
+            <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+            <span className="font-mono text-sm text-violet-400 tracking-widest">DISPONIBLE</span>
           </div>
 
           <div>
@@ -37,7 +46,7 @@ export default function Hero() {
           <p className="text-slate-400 text-lg leading-relaxed max-w-lg">
             Étudiant à <span className="text-purple-400 font-semibold">Epitech</span>, passionné par le développement
             système, les jeux et la cybersécurité. Je construis des projets{' '}
-            <span className="text-cyan-400 font-semibold">ambitieux</span> en C, C++, Python et JavaScript.
+            <span className="text-violet-300 font-semibold">ambitieux</span> en C, C++, Python et JavaScript.
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -73,7 +82,7 @@ export default function Hero() {
           <div className="relative">
             {/* Decorative rings */}
             <div className="absolute -inset-8 rounded-full border border-purple-500/20 animate-pulse-slow" />
-            <div className="absolute -inset-16 rounded-full border border-cyan-500/10" />
+            <div className="absolute -inset-16 rounded-full border border-violet-500/10" />
 
             {/* Avatar */}
             <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden glass glow-purple border-2 border-purple-500/30">
@@ -97,8 +106,8 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Tech badges floating */}
-            <div className="absolute -top-4 -left-4 glass rounded-xl px-3 py-1.5 border border-cyan-500/30 font-mono text-xs text-cyan-400">
+            {/* Tech badge floating */}
+            <div className="absolute -top-4 -left-4 glass rounded-xl px-3 py-1.5 border border-violet-500/30 font-mono text-xs text-violet-300">
               C++ / ECS
             </div>
           </div>
@@ -106,7 +115,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-600">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-600 z-10">
         <span className="text-xs font-mono tracking-widest">SCROLL</span>
         <div className="w-px h-12 bg-gradient-to-b from-slate-600 to-transparent animate-pulse" />
       </div>

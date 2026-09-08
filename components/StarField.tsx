@@ -9,7 +9,7 @@ interface Star {
   prevZ: number
 }
 
-const NUM_STARS = 800
+const NUM_STARS = 700
 const SPEED = 3
 
 export default function StarField() {
@@ -22,8 +22,8 @@ export default function StarField() {
     if (!ctx) return
 
     let animId: number
-    let width = window.innerWidth
-    let height = window.innerHeight
+    let width = canvas.offsetWidth || window.innerWidth
+    let height = canvas.offsetHeight || window.innerHeight
 
     canvas.width = width
     canvas.height = height
@@ -31,7 +31,6 @@ export default function StarField() {
     const cx = width / 2
     const cy = height / 2
 
-    // Init stars spread across all depths
     const stars: Star[] = Array.from({ length: NUM_STARS }, () => ({
       x: Math.random() * width - cx,
       y: Math.random() * height - cy,
@@ -43,7 +42,6 @@ export default function StarField() {
     function draw() {
       if (!ctx || !canvas) return
 
-      // Fade trail — semi-transparent black overlay
       ctx.fillStyle = 'rgba(10, 10, 15, 0.25)'
       ctx.fillRect(0, 0, width, height)
 
@@ -51,7 +49,6 @@ export default function StarField() {
         star.prevZ = star.z
         star.z -= SPEED
 
-        // Reset star that went past the viewer
         if (star.z <= 0) {
           star.x = Math.random() * width - cx
           star.y = Math.random() * height - cy
@@ -60,33 +57,32 @@ export default function StarField() {
           continue
         }
 
-        // Project current position
         const sx = (star.x / star.z) * width + cx
         const sy = (star.y / star.z) * width + cy
-
-        // Project previous position for trail
         const px = (star.x / star.prevZ) * width + cx
         const py = (star.y / star.prevZ) * width + cy
 
-        // Skip if out of bounds
         if (sx < 0 || sx > width || sy < 0 || sy > height) continue
 
-        // Size & brightness grow as star approaches
         const size = Math.max(0.3, (1 - star.z / width) * 2.5)
-        const brightness = Math.floor((1 - star.z / width) * 255)
+        const t = 1 - star.z / width  // 0=far, 1=close
+        const alpha = t * 0.9
 
-        // Draw streak from previous to current position
+        // Violet/white star streak — no blue channel bias
+        const r = Math.floor(180 + t * 75)
+        const g = Math.floor(130 + t * 80)
+        const b = Math.floor(255)
         ctx.beginPath()
         ctx.moveTo(px, py)
         ctx.lineTo(sx, sy)
-        ctx.strokeStyle = `rgba(${brightness}, ${Math.floor(brightness * 0.85)}, 255, ${(1 - star.z / width) * 0.9})`
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`
         ctx.lineWidth = size
         ctx.stroke()
 
-        // Draw dot at tip
+        // Bright dot tip — pale violet-white
         ctx.beginPath()
         ctx.arc(sx, sy, size * 0.6, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(200, 210, 255, ${(1 - star.z / width) * 0.95})`
+        ctx.fillStyle = `rgba(230, 210, 255, ${alpha * 1.05})`
         ctx.fill()
       }
 
@@ -97,8 +93,8 @@ export default function StarField() {
 
     function onResize() {
       if (!canvas) return
-      width = window.innerWidth
-      height = window.innerHeight
+      width = canvas.offsetWidth || window.innerWidth
+      height = canvas.offsetHeight || window.innerHeight
       canvas.width = width
       canvas.height = height
     }
@@ -114,8 +110,8 @@ export default function StarField() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
-      style={{ opacity: 0.55 }}
+      className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+      style={{ opacity: 0.6 }}
     />
   )
 }

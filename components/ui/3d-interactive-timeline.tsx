@@ -77,21 +77,27 @@ function TimelineCard({
 
   const colorMap: Record<string, string> = {
     purple: 'bg-purple-500 border-purple-400',
-    cyan: 'bg-cyan-500 border-cyan-400',
-    emerald: 'bg-emerald-500 border-emerald-400',
-    amber: 'bg-amber-500 border-amber-400',
-    rose: 'bg-rose-500 border-rose-400',
-    blue: 'bg-blue-500 border-blue-400',
+    violet: 'bg-violet-500 border-violet-400',
+    fuchsia: 'bg-fuchsia-500 border-fuchsia-400',
     indigo: 'bg-indigo-500 border-indigo-400',
+    // legacy aliases kept for safety
+    cyan: 'bg-violet-500 border-violet-400',
+    emerald: 'bg-purple-500 border-purple-400',
+    amber: 'bg-fuchsia-500 border-fuchsia-400',
+    rose: 'bg-violet-600 border-violet-500',
+    blue: 'bg-indigo-500 border-indigo-400',
   }
   const textColorMap: Record<string, string> = {
     purple: 'text-purple-400',
-    cyan: 'text-cyan-400',
-    emerald: 'text-emerald-400',
-    amber: 'text-amber-400',
-    rose: 'text-rose-400',
-    blue: 'text-blue-400',
+    violet: 'text-violet-400',
+    fuchsia: 'text-fuchsia-400',
     indigo: 'text-indigo-400',
+    // legacy aliases
+    cyan: 'text-violet-400',
+    emerald: 'text-purple-400',
+    amber: 'text-fuchsia-400',
+    rose: 'text-violet-400',
+    blue: 'text-indigo-400',
   }
   const dotClass = colorMap[event.color ?? 'purple'] ?? colorMap.purple
   const textClass = textColorMap[event.color ?? 'purple'] ?? textColorMap.purple
