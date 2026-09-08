@@ -51,8 +51,7 @@ export default function Contact() {
           {/* Left */}
           <div className="flex flex-col gap-6">
             <p className="text-slate-300 text-lg leading-relaxed">
-              Je suis ouvert aux opportunités de stage, d&apos;alternance et de collaboration sur des projets
-              ambitieux.
+              Je suis ouvert aux opportunités de stage
             </p>
             <p className="text-slate-400 leading-relaxed">
               Que ce soit pour un projet de jeu, une application système, une webapp ou un défi en
@@ -91,7 +90,7 @@ export default function Contact() {
             <div className="text-4xl mb-4">👋</div>
             <h3 className="text-white font-bold text-xl mb-3">Disponible pour des opportunités</h3>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Étudiant Epitech en recherche de stage / alternance. Passionné, autonome et toujours prêt à
+              Étudiant en 5ème année à Epitech à la recherche de stage. Passionné, autonome et toujours prêt à
               relever de nouveaux défis techniques.
             </p>
 
@@ -102,7 +101,7 @@ export default function Contact() {
               </div>
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-purple-400" />
-                <span className="text-sm text-slate-300">Stage / Alternance</span>
+                <span className="text-sm text-slate-300">Stage / Durée : 6 mois</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan-400" />
@@ -111,7 +110,7 @@ export default function Contact() {
             </div>
 
             <a
-              href="mailto:alexandre.vittenet@gmail.com"
+              href="mailto:alexandre.vittenet@epitech.eu"
               className="btn-primary mt-6 w-full text-center block"
             >
               M&apos;envoyer un email
