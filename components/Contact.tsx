@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { SectionTitle } from './About'
+import { useLanguage } from '@/lib/LanguageContext'
+import { ui } from '@/lib/i18n'
 
 const socials = [
   {
@@ -39,6 +41,8 @@ const socials = [
 
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null)
+  const { lang } = useLanguage()
+  const t = ui[lang].contact
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,16 +58,11 @@ export default function Contact() {
   return (
     <section id="contact" className="py-24 px-6">
       <div ref={ref} className="section-animate max-w-2xl mx-auto">
-        <SectionTitle label="CONTACT" title="Travaillons ensemble" />
+        <SectionTitle label={t.label} title={t.title} />
 
         <div className="mt-12 flex flex-col gap-5">
-          <p className="text-slate-300 text-lg leading-relaxed">
-            Je suis ouvert aux opportunités de stage
-          </p>
-          <p className="text-slate-400 leading-relaxed">
-            Que ce soit pour un projet de jeu, une application système, une webapp ou un défi en
-            cybersécurité — n&apos;hésitez pas à me contacter.
-          </p>
+          <p className="text-slate-300 text-lg leading-relaxed">{t.p1}</p>
+          <p className="text-slate-400 leading-relaxed">{t.p2}</p>
 
           <div className="flex flex-col gap-3 mt-4">
             {socials.map(({ name, handle, url, icon }) => (

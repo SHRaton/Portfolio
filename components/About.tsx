@@ -3,8 +3,9 @@
 import { useEffect, useRef } from 'react'
 import { InfiniteSlider, SliderLogo } from './ui/infinite-slider'
 import { assetPath } from '@/lib/assetPath'
+import { useLanguage } from '@/lib/LanguageContext'
+import { ui } from '@/lib/i18n'
 
-// Logos sourced from Simple Icons CDN — colors are brand or adjusted for dark background visibility
 const logos: SliderLogo[] = [
   { src: 'https://cdn.simpleicons.org/c/a8b9cc', alt: 'C' },
   { src: 'https://cdn.simpleicons.org/cplusplus/659ad2', alt: 'C++' },
@@ -36,6 +37,8 @@ const logos: SliderLogo[] = [
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null)
+  const { lang } = useLanguage()
+  const t = ui[lang].about
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,25 +54,57 @@ export default function About() {
   return (
     <section id="about" className="section-alt py-24 px-6">
       <div ref={ref} className="section-animate max-w-6xl mx-auto">
-        <SectionTitle label="À PROPOS" title="Qui suis-je ?" />
+        <SectionTitle label={t.label} title={t.title} />
 
         <div className="grid md:grid-cols-2 gap-12 mt-16 items-center">
           {/* Text */}
           <div className="flex flex-col gap-6">
-            <p className="text-slate-300 leading-relaxed text-lg">
-              Je suis <span className="text-white font-semibold">Alexandre Vittenet</span>, étudiant en 5ème année
-              à <span className="gradient-text font-semibold">Epitech Marseille</span> 
-              Ma formation m&apos;a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu
-              graphique en C++, des jeux multi-joueurs en réseau, des plateformes web full-stack et des outils
-              d&apos;automatisation. Chaque projet Epitech est une opportunité de pousser mes limites.
-            </p>
-            <p className="text-slate-400 leading-relaxed">
-              J'ai validé mon échange universitaire en Corée du Sud à <span className="text-purple-400">Keimyung University</span> à Daegu, où j'ai approfondi mes compétences en
-              <span className="text-violet-400">cybersécurité</span> et <span className="text-violet-400">Big Data</span>, tout en découvrant une culture fascinante.
-            </p>
-            <p className="text-slate-400 leading-relaxed">
-              Mon parcours professionnel m'a permis de travailler sur des projets concrets, notamment au sein de studios de jeux vidéo et d'entreprises technologiques, où j'ai pu appliquer mes compétences en développement logiciel <span className="text-violet-400">backend</span> et <span className="text-violet-400">frontend</span> en résolution de <span className="text-violet-400">problèmes complexes</span>.
-            </p>
+            {lang === 'fr' ? (
+              <>
+                <p className="text-slate-300 leading-relaxed text-lg">
+                  Je suis <span className="text-white font-semibold">Alexandre Vittenet</span>, étudiant en 5ème année
+                  à <span className="gradient-text font-semibold">Epitech Marseille</span>.{' '}
+                  Ma formation m&apos;a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu
+                  graphique en C++, des jeux multi-joueurs en réseau, des plateformes web full-stack et des outils
+                  d&apos;automatisation. Chaque projet Epitech est une opportunité de pousser mes limites.
+                </p>
+                <p className="text-slate-300 leading-relaxed text-lg">
+                  J&apos;ai validé mon échange universitaire en Corée du Sud à{' '}
+                  <span className="text-purple-400">Keimyung University</span> à Daegu, où j&apos;ai approfondi mes
+                  compétences en <span className="text-violet-400">cybersécurité</span> et{' '}
+                  <span className="text-violet-400">Big Data</span>, tout en découvrant une culture fascinante.
+                </p>
+                <p className="text-slate-300 leading-relaxed text-lg">
+                  Mon parcours professionnel m&apos;a permis de travailler sur des projets concrets, notamment au sein
+                  de studios de jeux vidéo et d&apos;entreprises technologiques, où j&apos;ai pu appliquer mes
+                  compétences en développement logiciel <span className="text-violet-400">backend</span> et{' '}
+                  <span className="text-violet-400">frontend</span> en résolution de{' '}
+                  <span className="text-violet-400">problèmes complexes</span>.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-slate-300 leading-relaxed text-lg">
+                  I am <span className="text-white font-semibold">Alexandre Vittenet</span>, a 5th-year student at{' '}
+                  <span className="gradient-text font-semibold">Epitech Marseille</span>.{' '}
+                  My training led me to work on varied and ambitious projects: C++ rendering engines, networked
+                  multiplayer games, full-stack web platforms and automation tools. Every Epitech project is an
+                  opportunity to push my limits.
+                </p>
+                <p className="text-slate-400 leading-relaxed">
+                  I completed my university exchange in South Korea at{' '}
+                  <span className="text-purple-400">Keimyung University</span> in Daegu, where I deepened my skills in{' '}
+                  <span className="text-violet-400">cybersecurity</span> and{' '}
+                  <span className="text-violet-400">Big Data</span>, while discovering a fascinating culture.
+                </p>
+                <p className="text-slate-400 leading-relaxed">
+                  My professional journey allowed me to work on real-world projects at video game studios and tech
+                  companies, where I applied my <span className="text-violet-400">backend</span> and{' '}
+                  <span className="text-violet-400">frontend</span> development skills to tackle{' '}
+                  <span className="text-violet-400">complex challenges</span>.
+                </p>
+              </>
+            )}
           </div>
 
           {/* Photo */}
@@ -106,7 +141,7 @@ export default function About() {
 
         {/* Tech logos marquee */}
         <div className="mt-16">
-          <p className="text-xs font-mono text-slate-600 tracking-widest mb-6 text-center">TECHNOLOGIES</p>
+          <p className="text-xs font-mono text-slate-600 tracking-widest mb-6 text-center">{t.techLabel}</p>
           <InfiniteSlider logos={logos} speed={30} />
         </div>
       </div>

@@ -1,5 +1,12 @@
+'use client'
+
+import { useLanguage } from '@/lib/LanguageContext'
+import { ui } from '@/lib/i18n'
+
 export default function Footer() {
   const year = new Date().getFullYear()
+  const { lang } = useLanguage()
+  const t = ui[lang].footer
 
   return (
     <footer className="section-alt border-t border-white/5 py-8 px-6">
@@ -10,7 +17,7 @@ export default function Footer() {
         </div>
 
         <p className="text-slate-600 text-xs font-mono">
-          © {year} · Construit avec Next.js & Tailwind CSS
+          © {year} · {t.built}
         </p>
 
         <a

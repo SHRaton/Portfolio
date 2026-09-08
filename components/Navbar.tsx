@@ -1,17 +1,22 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-
-const links = [
-  { href: '#about', label: 'À propos' },
-  { href: '#parcours', label: 'Parcours' },
-  { href: '#projects', label: 'Projets' },
-  { href: '#contact', label: 'Contact' },
-]
+import { motion } from 'framer-motion'
+import { useLanguage } from '@/lib/LanguageContext'
+import { ui } from '@/lib/i18n'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { lang, toggleLang } = useLanguage()
+  const t = ui[lang].nav
+
+  const links = [
+    { href: '#about', label: t.about },
+    { href: '#parcours', label: t.timeline },
+    { href: '#projects', label: t.projects },
+    { href: '#contact', label: t.contact },
+  ]
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20)
@@ -47,32 +52,40 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <a
-          href="https://github.com/SHRaton"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:flex items-center gap-2 btn-secondary text-sm py-2 px-4"
-        >
-          <GitHubIcon />
-          GitHub
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          {/* Language toggle */}
+          <LangToggle lang={lang} toggleLang={toggleLang} />
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden text-slate-400 hover:text-white transition-colors"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          {menuOpen ? (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
+          <a
+            href="https://github.com/SHRaton"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 btn-secondary text-sm py-2 px-4"
+          >
+            <GitHubIcon />
+            GitHub
+          </a>
+        </div>
+
+        {/* Mobile right side */}
+        <div className="md:hidden flex items-center gap-3">
+          <LangToggle lang={lang} toggleLang={toggleLang} />
+          <button
+            className="text-slate-400 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+          >
+            {menuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -100,6 +113,40 @@ export default function Navbar() {
         </div>
       )}
     </header>
+  )
+}
+
+function LangToggle({ lang, toggleLang }: { lang: 'fr' | 'en'; toggleLang: () => void }) {
+  return (
+    <button
+      onClick={toggleLang}
+      aria-label="Toggle language"
+      className="relative flex items-center glass rounded-full border border-white/10 overflow-hidden"
+    >
+      <motion.div
+        className="absolute inset-y-[2px] rounded-full bg-gradient-to-r from-violet-700 to-purple-500"
+        animate={
+          lang === 'fr'
+            ? { left: '2px', right: '50%' }
+            : { left: '50%', right: '2px' }
+        }
+        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      />
+      <span
+        className={`relative z-10 w-10 text-center py-1.5 text-xs font-mono font-bold transition-colors duration-150 ${
+          lang === 'fr' ? 'text-white' : 'text-slate-400'
+        }`}
+      >
+        FR
+      </span>
+      <span
+        className={`relative z-10 w-10 text-center py-1.5 text-xs font-mono font-bold transition-colors duration-150 ${
+          lang === 'en' ? 'text-white' : 'text-slate-400'
+        }`}
+      >
+        EN
+      </span>
+    </button>
   )
 }
 
