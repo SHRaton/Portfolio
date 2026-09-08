@@ -52,8 +52,12 @@ export default function CustomCursor() {
     <>
       {/* Lagging ring */}
       <motion.div
-        className="pointer-events-none fixed z-[9999] rounded-full -translate-x-1/2 -translate-y-1/2 border"
-        style={{ x: ringX, y: ringY }}
+        className="pointer-events-none fixed z-[9999] rounded-full border"
+        style={{
+          left: ringX,
+          top: ringY,
+          transform: 'translate(-50%, -50%)',
+        }}
         animate={{
           width: ringSize,
           height: ringSize,
@@ -74,10 +78,11 @@ export default function CustomCursor() {
 
       {/* Precise dot */}
       <motion.div
-        className="pointer-events-none fixed z-[9999] rounded-full -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none fixed z-[9999] rounded-full"
         style={{
-          x: mouseX,
-          y: mouseY,
+          left: mouseX,
+          top: mouseY,
+          transform: 'translate(-50%, -50%)',
           backgroundColor: 'rgb(167, 139, 250)',
         }}
         animate={{
