@@ -210,7 +210,7 @@ function TimelineCard({
             } : {}}
             transition={{ repeat: isActive ? Infinity : 0, duration: 1.4 }}
           />
-          <span className="text-[9px] font-mono text-violet-300/75 mt-1.5 text-center leading-tight w-full px-1">
+          <span className="text-[11px] font-mono font-semibold text-violet-300 mt-2 text-center leading-tight w-full px-1">
             {event.date}
           </span>
         </div>

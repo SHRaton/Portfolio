@@ -31,7 +31,7 @@ const bilEvents: BilEvent[] = [
   },
   {
     id: '2',
-    date: { fr: "2022 — aujourd'hui", en: '2022 — present' },
+    date: { fr: '2022 — 2026', en: '2022 — 2026' },
     title: { fr: 'Étudiant en informatique', en: 'Computer Science Student' },
     subtitle: 'Epitech · Marseille, France',
     description: {
