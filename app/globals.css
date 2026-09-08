@@ -19,6 +19,16 @@
   margin: 0;
 }
 
+::selection {
+  background: rgba(124, 58, 237, 0.45);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(124, 58, 237, 0.45);
+  color: #ffffff;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
