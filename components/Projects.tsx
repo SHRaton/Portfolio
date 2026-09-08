@@ -1,82 +1,69 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { projects, Project } from '@/lib/projects'
+import { useEffect, useState } from 'react'
+import { projects } from '@/lib/projects'
 import { SectionTitle } from './About'
+import { CardStack, CardStackItem } from './ui/card-stack'
 
-const categories = ['Tous', 'Game Dev', 'Full-Stack', 'Réseau', 'Système', 'Graphisme', 'CyberSec', 'Mathématiques']
+interface ProjectCard extends CardStackItem {
+  icon: string
+  tags: string[]
+  language: string
+  languageColor: string
+  featured: boolean
+  homepageUrl?: string
+  longDesc: string
+}
+
+const cardItems: ProjectCard[] = projects.map((p) => ({
+  id: p.slug,
+  title: p.title,
+  description: p.description,
+  href: p.githubUrl,
+  tag: p.category,
+  icon: p.icon,
+  tags: p.tags,
+  language: p.language,
+  languageColor: p.languageColor,
+  featured: p.featured,
+  homepageUrl: p.homepageUrl,
+  longDesc: p.longDesc,
+}))
 
 export default function Projects() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [activeCategory, setActiveCategory] = useState('Tous')
+  const [cardWidth, setCardWidth] = useState(520)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) entry.target.classList.add('visible')
-      },
-      { threshold: 0.05 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+    const update = () => setCardWidth(Math.min(520, window.innerWidth - 48))
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
   }, [])
 
-  const featured = projects.filter((p) => p.featured)
-  const filtered =
-    activeCategory === 'Tous'
-      ? projects.filter((p) => !p.featured)
-      : projects.filter((p) => !p.featured && p.category === activeCategory)
+  const cardHeight = Math.round(cardWidth * (340 / 520))
 
   return (
     <section id="projects" className="py-24 px-6">
-      <div ref={ref} className="section-animate max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <SectionTitle label="PROJETS" title="Ce que j'ai construit" />
+        <p className="text-slate-500 text-sm mt-3">
+          Glissez ou cliquez pour naviguer · {cardItems.length} projets
+        </p>
 
-        {/* Featured */}
-        <div className="mt-16">
-          <h3 className="text-slate-400 text-sm font-mono mb-6 tracking-wider">⭐ PROJETS PHARES</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featured.map((project) => (
-              <FeaturedCard key={project.slug} project={project} />
-            ))}
-          </div>
-        </div>
-
-        {/* All projects */}
-        <div className="mt-16">
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
-            <h3 className="text-slate-400 text-sm font-mono tracking-wider">TOUS LES PROJETS</h3>
-            {/* Category filter */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 ${
-                    activeCategory === cat
-                      ? 'bg-purple-600 text-white'
-                      : 'glass text-slate-400 hover:text-white hover:border-purple-500/40'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-            {filtered.length === 0 && (
-              <div className="col-span-3 text-center py-12 text-slate-500">
-                Aucun projet dans cette catégorie.
-              </div>
+        <div className="mt-12">
+          <CardStack<ProjectCard>
+            items={cardItems}
+            cardWidth={cardWidth}
+            cardHeight={cardHeight}
+            showDots
+            loop
+            renderCard={(item, { active }) => (
+              <ProjectCardContent item={item} active={active} />
             )}
-          </div>
+          />
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <a
             href="https://github.com/SHRaton"
             target="_blank"
@@ -94,104 +81,81 @@ export default function Projects() {
   )
 }
 
-function FeaturedCard({ project }: { project: Project }) {
+function ProjectCardContent({ item, active }: { item: ProjectCard; active: boolean }) {
   return (
-    <div className="glass glass-hover rounded-2xl p-6 transition-all duration-300 flex flex-col gap-4 group">
-      <div className="flex items-start justify-between">
-        <div className="text-4xl">{project.icon}</div>
-        <span className="tag">{project.category}</span>
+    <div
+      className="relative h-full w-full flex flex-col p-6 gap-3"
+      style={{
+        background: 'rgba(8, 8, 18, 0.75)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
+      {/* Featured badge */}
+      {item.featured && (
+        <span className="absolute top-4 right-4 text-xs font-mono bg-amber-500/20 border border-amber-500/30 text-amber-300 px-2 py-0.5 rounded-full">
+          ⭐ Featured
+        </span>
+      )}
+
+      {/* Header */}
+      <div className="flex items-start gap-4" style={{ paddingRight: item.featured ? '6rem' : '0' }}>
+        <span className="text-4xl flex-shrink-0">{item.icon}</span>
+        <div>
+          <span className="text-xs font-mono text-slate-500 tracking-wider uppercase">{item.tag}</span>
+          <h3 className="text-xl font-bold text-white leading-tight mt-0.5">{item.title}</h3>
+        </div>
       </div>
 
-      <div>
-        <h3 className="text-white font-bold text-xl mb-2 group-hover:text-purple-300 transition-colors">
-          {project.title}
-        </h3>
-        <p className="text-slate-400 text-sm leading-relaxed">{project.longDesc}</p>
-      </div>
+      {/* Description */}
+      <p className="text-slate-300 text-sm leading-relaxed flex-1 line-clamp-4">
+        {active ? item.longDesc : item.description}
+      </p>
 
-      <div className="flex flex-wrap gap-1.5 mt-auto">
-        {project.tags.slice(0, 4).map((tag) => (
-          <span key={tag} className="tag">
-            {tag}
+      {/* Tags */}
+      <div className="flex flex-wrap gap-1.5">
+        {item.tags.slice(0, 5).map((t) => (
+          <span
+            key={t}
+            className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono bg-white/10 border border-white/10 text-slate-300"
+          >
+            {t}
           </span>
         ))}
-        {project.tags.length > 4 && (
-          <span className="tag">+{project.tags.length - 4}</span>
+        {item.tags.length > 5 && (
+          <span className="text-xs text-slate-500 self-center">+{item.tags.length - 5}</span>
         )}
       </div>
 
-      <div className="flex items-center gap-2 pt-2 border-t border-white/10">
-        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: project.languageColor }} />
-        <span className="text-xs text-slate-400 font-mono">{project.language}</span>
-
-        <div className="ml-auto flex items-center gap-2">
-          {project.homepageUrl && (
-            <a
-              href={project.homepageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
-            >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              Démo live
-            </a>
-          )}
+      {/* Footer */}
+      <div className="flex items-center gap-3 pt-2 border-t border-white/10">
+        <div
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+          style={{ backgroundColor: item.languageColor }}
+        />
+        <span className="text-xs text-slate-400 font-mono flex-1">{item.language}</span>
+        {item.homepageUrl && (
           <a
-            href={project.githubUrl}
+            href={item.homepageUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="text-slate-600 hover:text-purple-400 transition-colors"
+            className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
+            Démo live
           </a>
-        </div>
+        )}
       </div>
+
+      {/* Active indicator bar */}
+      {active && (
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 via-cyan-400 to-purple-500" />
+      )}
     </div>
-  )
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <a
-      href={project.githubUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="glass rounded-xl p-5 glass-hover transition-all duration-300 flex flex-col gap-3 group"
-    >
-      <div className="flex items-center gap-3">
-        <span className="text-2xl">{project.icon}</span>
-        <div>
-          <h3 className="text-white font-semibold text-sm group-hover:text-purple-300 transition-colors">
-            {project.title}
-          </h3>
-          <span className="text-xs text-slate-500">{project.category}</span>
-        </div>
-        <svg className="w-4 h-4 ml-auto text-slate-700 group-hover:text-purple-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </div>
-
-      <p className="text-slate-400 text-xs leading-relaxed">{project.description}</p>
-
-      <div className="flex flex-wrap gap-1 mt-auto">
-        {project.tags.slice(0, 3).map((tag) => (
-          <span key={tag} className="tag text-xs">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-2 pt-2 border-t border-white/5">
-        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: project.languageColor }} />
-        <span className="text-xs text-slate-500 font-mono">{project.language}</span>
-      </div>
-    </a>
   )
 }
