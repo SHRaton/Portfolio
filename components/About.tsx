@@ -62,46 +62,57 @@ export default function About() {
             {lang === 'fr' ? (
               <>
                 <p className="text-slate-300 leading-relaxed text-lg">
-                  Je suis <span className="text-white font-semibold">Alexandre Vittenet</span>, étudiant en 5ème année
-                  à <span className="gradient-text font-semibold">Epitech Marseille</span>.{' '}
-                  Ma formation m&apos;a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu
-                  graphique en C++, des jeux multi-joueurs en réseau, des plateformes web full-stack et des outils
-                  d&apos;automatisation. Chaque projet Epitech est une opportunité de pousser mes limites.
+                  {'Je suis '}
+                  <span className="text-white font-semibold">Alexandre Vittenet</span>
+                  {', étudiant en 5ème année à '}
+                  <span className="gradient-text font-semibold">Epitech Marseille</span>
+                  {'. Ma formation m\'a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu graphique en C++, des jeux multi-joueurs en réseau, des plateformes web full-stack et des outils d\'automatisation. Chaque projet Epitech est une opportunité de pousser mes limites.'}
                 </p>
-                <p className="text-slate-300 leading-relaxed text-lg">
-                  J&apos;ai validé mon échange universitaire en Corée du Sud à{' '}
-                  <span className="text-purple-400">Keimyung University</span> à Daegu, où j&apos;ai approfondi mes
-                  compétences en <span className="text-violet-400">cybersécurité</span> et{' '}
-                  <span className="text-violet-400">Big Data</span>, tout en découvrant une culture fascinante.
+                <p className="text-slate-400 leading-relaxed">
+                  {'J\'ai validé mon échange universitaire en Corée du Sud à '}
+                  <span className="text-purple-400">Keimyung University</span>
+                  {' à Daegu, où j\'ai approfondi mes compétences en '}
+                  <span className="text-violet-400">cybersécurité</span>
+                  {' et '}
+                  <span className="text-violet-400">Big Data</span>
+                  {', tout en découvrant une culture fascinante.'}
                 </p>
-                <p className="text-slate-300 leading-relaxed text-lg">
-                  Mon parcours professionnel m&apos;a permis de travailler sur des projets concrets, notamment au sein
-                  de studios de jeux vidéo et d&apos;entreprises technologiques, où j&apos;ai pu appliquer mes
-                  compétences en développement logiciel <span className="text-violet-400">backend</span> et{' '}
-                  <span className="text-violet-400">frontend</span> en résolution de{' '}
-                  <span className="text-violet-400">problèmes complexes</span>.
+                <p className="text-slate-400 leading-relaxed">
+                  {'Mon parcours professionnel m\'a permis de travailler sur des projets concrets, notamment au sein de studios de jeux vidéo et d\'entreprises technologiques, où j\'ai pu appliquer mes compétences en développement logiciel '}
+                  <span className="text-violet-400">backend</span>
+                  {' et '}
+                  <span className="text-violet-400">frontend</span>
+                  {' en résolution de '}
+                  <span className="text-violet-400">problèmes complexes</span>
+                  {'.'}
                 </p>
               </>
             ) : (
               <>
                 <p className="text-slate-300 leading-relaxed text-lg">
-                  I am <span className="text-white font-semibold">Alexandre Vittenet</span>, a 5th-year student at{' '}
-                  <span className="gradient-text font-semibold">Epitech Marseille</span>.{' '}
-                  My training led me to work on varied and ambitious projects: C++ rendering engines, networked
-                  multiplayer games, full-stack web platforms and automation tools. Every Epitech project is an
-                  opportunity to push my limits.
+                  {'I am '}
+                  <span className="text-white font-semibold">Alexandre Vittenet</span>
+                  {', a 5th-year student at '}
+                  <span className="gradient-text font-semibold">Epitech Marseille</span>
+                  {'. My training led me to work on varied and ambitious projects: C++ rendering engines, networked multiplayer games, full-stack web platforms and automation tools. Every Epitech project is an opportunity to push my limits.'}
                 </p>
                 <p className="text-slate-400 leading-relaxed">
-                  I completed my university exchange in South Korea at{' '}
-                  <span className="text-purple-400">Keimyung University</span> in Daegu, where I deepened my skills in{' '}
-                  <span className="text-violet-400">cybersecurity</span> and{' '}
-                  <span className="text-violet-400">Big Data</span>, while discovering a fascinating culture.
+                  {'I completed my university exchange in South Korea at '}
+                  <span className="text-purple-400">Keimyung University</span>
+                  {' in Daegu, where I deepened my skills in '}
+                  <span className="text-violet-400">cybersecurity</span>
+                  {' and '}
+                  <span className="text-violet-400">Big Data</span>
+                  {', while discovering a fascinating culture.'}
                 </p>
                 <p className="text-slate-400 leading-relaxed">
-                  My professional journey allowed me to work on real-world projects at video game studios and tech
-                  companies, where I applied my <span className="text-violet-400">backend</span> and{' '}
-                  <span className="text-violet-400">frontend</span> development skills to tackle{' '}
-                  <span className="text-violet-400">complex challenges</span>.
+                  {'My professional journey allowed me to work on real-world projects at video game studios and tech companies, where I applied my '}
+                  <span className="text-violet-400">backend</span>
+                  {' and '}
+                  <span className="text-violet-400">frontend</span>
+                  {' development skills to tackle '}
+                  <span className="text-violet-400">complex challenges</span>
+                  {'.'}
                 </p>
               </>
             )}
@@ -133,7 +144,7 @@ export default function About() {
               </div>
 
               <div className="absolute -top-4 -left-4 glass rounded-xl px-3 py-1.5 border border-violet-500/30 font-mono text-xs text-violet-300">
-                C++ / ECS
+                21
               </div>
             </div>
           </div>
