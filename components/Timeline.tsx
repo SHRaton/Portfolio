@@ -10,6 +10,7 @@ const events: TimelineEvent[] = [
     description: 'Spécialités Mathématiques & Physique-Chimie. Mention Bien obtenue au baccalauréat général.',
     category: 'Formation',
     color: 'purple',
+    logoFallback: 'LP',
     tags: ['Maths', 'Physique-Chimie', 'Mention Bien'],
   },
   {
@@ -20,6 +21,8 @@ const events: TimelineEvent[] = [
     description: 'Programme de 5 ans axé sur la pratique : projets en C, C++, Python et JavaScript sans cours magistraux. Projet Innovant Epitech (EIP) en 4e et 5e année — plateforme éducative Milo.',
     category: 'Formation',
     color: 'indigo',
+    logo: 'https://logo.clearbit.com/epitech.eu',
+    logoFallback: 'EP',
     tags: ['C', 'C++', 'Python', 'JavaScript', 'EIP', 'Milo'],
   },
   {
@@ -30,6 +33,8 @@ const events: TimelineEvent[] = [
     description: 'Stage dans le domaine du jeu vidéo au sein du studio français connu pour Detroit: Become Human, Heavy Rain et Star Wars Eclipse. Développement full stack dans un environnement AAA.',
     category: 'Stage',
     color: 'cyan',
+    logo: 'https://logo.clearbit.com/quanticdream.com',
+    logoFallback: 'QD',
     tags: ['Full Stack', 'Jeu Vidéo', 'AAA', 'Paris'],
   },
   {
@@ -40,16 +45,19 @@ const events: TimelineEvent[] = [
     description: 'Stage à temps partiel — développement full stack sur un jeu indépendant jouable directement sur navigateur web. Participation à toutes les phases du cycle de développement.',
     category: 'Stage',
     color: 'cyan',
+    logoFallback: 'EB',
     tags: ['Full Stack', 'Jeu Indie', 'Web', 'Browser Game'],
   },
   {
     id: '5',
     date: '2025',
     title: 'Stage — Développeur 3D',
-    subtitle: 'France',
+    subtitle: 'Cyclife Digital Solutions · France',
     description: 'Développement en C# avec le moteur physique BeepU Physics. Travail sur un moteur physique avancé et rendu de nuages de points pour des applications de simulation.',
     category: 'Stage',
     color: 'emerald',
+    logo: 'https://logo.clearbit.com/cyclife.com',
+    logoFallback: 'CD',
     tags: ['C#', 'BeepU Physics', '3D', 'Nuage de points', 'Moteur physique'],
   },
   {
@@ -60,6 +68,8 @@ const events: TimelineEvent[] = [
     description: 'Année universitaire en échange à la Keimyung University. Cursus Big Data en double diplôme avec Epitech. Immersion culturelle complète en Asie du Sud-Est.',
     category: 'Échange',
     color: 'amber',
+    logo: 'https://logo.clearbit.com/kmu.ac.kr',
+    logoFallback: 'KU',
     tags: ['Big Data', 'Double diplôme', 'Corée du Sud', 'Échange universitaire'],
   },
 ]

@@ -12,6 +12,8 @@ export interface TimelineEvent {
   description: string
   icon?: React.ReactNode
   image?: string
+  logo?: string       // URL du logo (ou chemin /public)
+  logoFallback?: string // initiales si pas de logo
   category?: string
   color?: string
   tags?: string[]
@@ -21,6 +23,31 @@ export interface TimelineEvent {
 interface Timeline3DProps {
   events: TimelineEvent[]
   className?: string
+}
+
+// Logo badge — shown in the bottom-left corner of the image/placeholder area
+function LogoBadge({ event, dotClass }: { event: TimelineEvent; dotClass: string }) {
+  const borderColor = dotClass.split(' ')[1] ?? 'border-purple-400'
+  const fallback = event.logoFallback ?? event.subtitle?.charAt(0) ?? '?'
+
+  return (
+    <div className={`absolute bottom-3 left-4 w-12 h-12 rounded-xl border-2 ${borderColor} overflow-hidden shadow-lg`}
+      style={{ background: 'rgba(10,10,20,0.85)', backdropFilter: 'blur(8px)' }}
+    >
+      {event.logo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={event.logo}
+          alt={`Logo ${event.title}`}
+          className="w-full h-full object-contain p-1.5"
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+          {fallback}
+        </div>
+      )}
+    </div>
+  )
 }
 
 // Each card is its own component so hooks are called at the top level (not inside .map())
@@ -126,6 +153,8 @@ function TimelineCard({
                 </span>
               </div>
             )}
+            {/* Logo overlapping bottom-left of image */}
+            <LogoBadge event={event} dotClass={dotClass} />
           </div>
         )}
 
@@ -136,7 +165,7 @@ function TimelineCard({
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span className="text-xs font-mono">Votre photo ici</span>
+              <span className="text-xs font-mono">Photo de l&apos;établissement</span>
             </div>
             {event.category && (
               <div className="absolute top-3 right-3">
@@ -145,6 +174,8 @@ function TimelineCard({
                 </span>
               </div>
             )}
+            {/* Logo overlapping bottom-left of placeholder */}
+            <LogoBadge event={event} dotClass={dotClass} />
           </div>
         )}
 
