@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import StarField from '@/components/StarField'
 import SolarSystem from '@/components/SolarSystem'
+import PlanetsToggle from '@/components/PlanetsToggle'
 
 export const metadata: Metadata = {
   title: 'Alexandre Vittenet — Portfolio',
@@ -31,6 +32,7 @@ export default function RootLayout({
         <div className="orb orb-1" />
         <div className="orb orb-2" />
         <div className="orb orb-3" />
+        <PlanetsToggle />
         {children}
       </body>
     </html>

@@ -185,20 +185,6 @@ function drawPlanet(
     ctx.restore()
   }
 
-  // --- Name label (appears when planet is big enough) ---
-  if (radius > 25) {
-    const labelAlpha = Math.min(1, (radius - 25) / 50)
-    const fontSize = Math.min(18, Math.max(11, radius * 0.15))
-    const labelY = sy + radius * (planet.hasRings ? (planet.ringOuter ?? 2.2) * (planet.ringTilt ?? 0.3) + 0.15 : 1.15) + fontSize + 4
-    ctx.save()
-    ctx.globalAlpha = labelAlpha
-    ctx.font = `500 ${fontSize}px Inter, system-ui, sans-serif`
-    ctx.fillStyle = '#cbd5e1'
-    ctx.textAlign = 'center'
-    ctx.fillText(planet.name.toUpperCase(), sx, labelY)
-    ctx.restore()
-  }
-
   ctx.restore()
 }
 
@@ -233,6 +219,10 @@ export default function SolarSystem() {
 
     const render = () => {
       ctx.clearRect(0, 0, w, h)
+      if (document.documentElement.dataset.planets === 'hidden') {
+        rafRef.current = requestAnimationFrame(render)
+        return
+      }
 
       // Camera has moved cameraZ units forward
       const cameraZ = scrollRef.current * MAX_CAM_Z
