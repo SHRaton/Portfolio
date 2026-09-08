@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { InfiniteSlider, SliderLogo } from './ui/infinite-slider'
 
 const highlights = [
   {
@@ -25,15 +26,33 @@ const highlights = [
   },
 ]
 
+// Logos sourced from Simple Icons CDN — colors are brand or adjusted for dark background visibility
+const logos: SliderLogo[] = [
+  { src: 'https://cdn.simpleicons.org/c/a8b9cc', alt: 'C' },
+  { src: 'https://cdn.simpleicons.org/cplusplus/659ad2', alt: 'C++' },
+  { src: 'https://cdn.simpleicons.org/python/ffdf76', alt: 'Python' },
+  { src: 'https://cdn.simpleicons.org/javascript/f7df1e', alt: 'JavaScript' },
+  { src: 'https://cdn.simpleicons.org/typescript/3178c6', alt: 'TypeScript' },
+  { src: 'https://cdn.simpleicons.org/react/61dafb', alt: 'React' },
+  { src: 'https://cdn.simpleicons.org/nodedotjs/6da55f', alt: 'Node.js' },
+  { src: 'https://cdn.simpleicons.org/docker/2496ed', alt: 'Docker' },
+  { src: 'https://cdn.simpleicons.org/git/f05032', alt: 'Git' },
+  { src: 'https://cdn.simpleicons.org/github/c4b5fd', alt: 'GitHub' },
+  { src: 'https://cdn.simpleicons.org/linux/fcc624', alt: 'Linux' },
+  { src: 'https://cdn.simpleicons.org/tailwindcss/38bdf8', alt: 'Tailwind' },
+  { src: 'https://cdn.simpleicons.org/threedotjs/ffffff', alt: 'Three.js' },
+  { src: 'https://cdn.simpleicons.org/expo/ffffff', alt: 'Expo' },
+  { src: 'https://cdn.simpleicons.org/visualstudiocode/007acc', alt: 'VS Code' },
+  { src: 'https://cdn.simpleicons.org/cmake/3fbfbf', alt: 'CMake' },
+]
+
 export default function About() {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible')
       },
       { threshold: 0.1 }
     )
@@ -67,9 +86,7 @@ export default function About() {
 
             <div className="flex flex-wrap gap-2 mt-2">
               {['C', 'C++', 'Python', 'JavaScript', 'CMake', 'SFML', 'Docker', 'Git'].map((tech) => (
-                <span key={tech} className="tag">
-                  {tech}
-                </span>
+                <span key={tech} className="tag">{tech}</span>
               ))}
             </div>
           </div>
@@ -87,6 +104,12 @@ export default function About() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Tech logos marquee */}
+        <div className="mt-16">
+          <p className="text-xs font-mono text-slate-600 tracking-widest mb-6 text-center">TECHNOLOGIES</p>
+          <InfiniteSlider logos={logos} speed={30} />
         </div>
       </div>
     </section>

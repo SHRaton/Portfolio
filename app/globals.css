@@ -120,6 +120,11 @@ body {
   66% { transform: translateY(15px) rotate(-2deg); }
 }
 
+@keyframes slider-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 /* Section transitions */
 .section-animate {
   opacity: 0;
