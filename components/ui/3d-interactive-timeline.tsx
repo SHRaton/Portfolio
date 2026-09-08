@@ -191,12 +191,12 @@ function TimelineCard({
       {/* Desktop: 3-column layout */}
       <div className="hidden md:flex w-full items-start">
         {/* Left slot */}
-        <div className="w-[45%] pr-6">
+        <div className="w-[40%] pr-6">
           {isLeft && card}
         </div>
 
         {/* Center: dot + date on the line */}
-        <div className="w-[10%] flex flex-col items-center pt-5 flex-shrink-0">
+        <div className="w-[20%] flex flex-col items-center pt-5 flex-shrink-0">
           <motion.div
             className="w-3.5 h-3.5 rounded-full bg-violet-500 border-2 border-violet-300 shadow-md shadow-violet-500/50 cursor-pointer relative z-10"
             whileHover={{ scale: 1.5 }}
@@ -210,13 +210,13 @@ function TimelineCard({
             } : {}}
             transition={{ repeat: isActive ? Infinity : 0, duration: 1.4 }}
           />
-          <span className="text-[11px] font-mono font-semibold text-violet-300 mt-2 text-center leading-tight w-full px-1">
+          <span className="font-mono font-bold text-violet-300 mt-1 text-center leading-none" style={{ fontSize: '50px' }}>
             {event.date}
           </span>
         </div>
 
         {/* Right slot */}
-        <div className="w-[45%] pl-6">
+        <div className="w-[40%] pl-6">
           {!isLeft && card}
         </div>
       </div>
@@ -259,6 +259,28 @@ export const Timeline3D: React.FC<Timeline3DProps> = ({ events, className = '' }
             mousePosition={mousePosition}
           />
         ))}
+
+        {/* End marker */}
+        <div className="hidden md:flex w-full items-start pt-2">
+          <div className="w-[40%]" />
+          <div className="w-[20%] flex flex-col items-center">
+            <motion.div
+              className="w-4 h-4 rounded-full bg-violet-400 border-2 border-violet-200 shadow-lg relative z-10"
+              animate={{
+                boxShadow: [
+                  '0 0 4px rgba(167,139,250,0.4)',
+                  '0 0 18px rgba(167,139,250,1)',
+                  '0 0 4px rgba(167,139,250,0.4)',
+                ],
+              }}
+              transition={{ repeat: Infinity, duration: 2.2 }}
+            />
+            <span className="font-mono font-bold text-violet-300 mt-1 text-center leading-none" style={{ fontSize: '50px' }}>
+              2026
+            </span>
+          </div>
+          <div className="w-[40%]" />
+        </div>
       </div>
     </div>
   )
