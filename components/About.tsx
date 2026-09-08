@@ -49,7 +49,7 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" className="py-24 px-6">
+    <section id="about" className="section-alt py-24 px-6">
       <div ref={ref} className="section-animate max-w-6xl mx-auto">
         <SectionTitle label="À PROPOS" title="Qui suis-je ?" />
 
@@ -58,18 +58,17 @@ export default function About() {
           <div className="flex flex-col gap-6">
             <p className="text-slate-300 leading-relaxed text-lg">
               Je suis <span className="text-white font-semibold">Alexandre Vittenet</span>, étudiant en 5ème année
-              à <span className="gradient-text font-semibold">Epitech</span> (École pour l&apos;Informatique et les
-              nouvelles Technologies).
-            </p>
-            <p className="text-slate-400 leading-relaxed">
-              Mon parcours m&apos;a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu
+              à <span className="gradient-text font-semibold">Epitech Marseille</span> 
+              Ma formation m&apos;a conduit à travailler sur des projets variés et ambitieux : des moteurs de rendu
               graphique en C++, des jeux multi-joueurs en réseau, des plateformes web full-stack et des outils
               d&apos;automatisation. Chaque projet Epitech est une opportunité de pousser mes limites.
             </p>
             <p className="text-slate-400 leading-relaxed">
-              En dehors de l&apos;école, je m&apos;intéresse à la{' '}
-              <span className="text-violet-400">cybersécurité</span>, aux game jams et à l&apos;exploration des
-              architectures logicielles modernes.
+              J'ai validé mon échange universitaire en Corée du Sud à <span className="text-purple-400">Keimyung University</span> à Daegu, où j'ai approfondi mes compétences en
+              <span className="text-violet-400">cybersécurité</span> et <span className="text-violet-400">Big Data</span>, tout en découvrant une culture fascinante.
+            </p>
+            <p className="text-slate-400 leading-relaxed">
+              Mon parcours professionnel m'a permis de travailler sur des projets concrets, notamment au sein de studios de jeux vidéo et d'entreprises technologiques, où j'ai pu appliquer mes compétences en développement logiciel <span className="text-violet-400">backend</span> et <span className="text-violet-400">frontend</span> en résolution de <span className="text-violet-400">problèmes complexes</span>.
             </p>
           </div>
 

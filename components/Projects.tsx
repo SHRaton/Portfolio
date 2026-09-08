@@ -33,7 +33,7 @@ const cardItems: ProjectCard[] = projects.map((p) => ({
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="section-alt py-24">
       {/* Constrained title */}
       <div className="max-w-5xl mx-auto px-6">
         <SectionTitle label="PROJETS" title="Ce que j'ai construit" />

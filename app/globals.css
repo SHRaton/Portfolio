@@ -232,6 +232,11 @@ body {
   transform: translateY(-2px);
 }
 
+/* Alternating section backgrounds */
+.section-alt {
+  background-color: #0e0e1a;
+}
+
 /* Custom cursor — hide default only on mouse devices */
 @media (pointer: fine) {
   *, *::before, *::after {
