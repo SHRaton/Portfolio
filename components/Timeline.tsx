@@ -1,5 +1,6 @@
 import { SectionTitle } from './About'
 import Timeline3D, { TimelineEvent } from './ui/3d-interactive-timeline'
+// Note: image/logo paths are prefixed with basePath automatically via assetPath() in the timeline component
 
 const events: TimelineEvent[] = [
   {
@@ -24,7 +25,7 @@ const events: TimelineEvent[] = [
     category: 'Formation',
     color: 'indigo',
     image: '/photos/epitech.jpg',
-    logo: '/logos/epitech.png',
+    logo: '/logos/epitech_logo.png',
     logoFallback: 'EP',
     tags: ['C', 'C++', 'Python', 'JavaScript', 'EIP', 'Milo'],
   },
@@ -37,7 +38,7 @@ const events: TimelineEvent[] = [
     category: 'Stage',
     color: 'cyan',
     image: '/photos/quantic_dream.jpeg',
-    logo: '/logos/quantic_dream.png',
+    logo: '/logos/quantic_dream_logo.png',
     logoFallback: 'QD',
     tags: ['Full Stack', 'Jeu Vidéo', 'AAA', 'Paris'],
   },
@@ -50,7 +51,7 @@ const events: TimelineEvent[] = [
     category: 'Stage',
     color: 'cyan',
     image: '/photos/eight_bamboos.jpg',
-    logo: '/logos/eight_bamboos.png',
+    logo: '/logos/eight_bamboos_logo.png',
     logoFallback: 'EB',
     tags: ['Full Stack', 'Jeu Indie', 'Web', 'Browser Game'],
   },
@@ -63,7 +64,7 @@ const events: TimelineEvent[] = [
     category: 'Stage',
     color: 'emerald',
     image: '/photos/cyclife.jpg',
-    logo: '/logos/cyclife.png',
+    logo: '/logos/cyclife_logo.png',
     logoFallback: 'CD',
     tags: ['C#', 'BeepU Physics', '3D', 'Nuage de points', 'Moteur physique'],
   },
@@ -76,7 +77,7 @@ const events: TimelineEvent[] = [
     category: 'Échange',
     color: 'amber',
     image: '/photos/keimyung.jpeg',
-    logo: '/logos/keimyung.png',
+    logo: '/logos/keimyung_logo.png',
     logoFallback: 'KU',
     tags: ['Big Data', 'Double diplôme', 'Corée du Sud', 'Échange universitaire'],
   },

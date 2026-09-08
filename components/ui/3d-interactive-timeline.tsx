@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { assetPath } from '@/lib/assetPath'
 
 export interface TimelineEvent {
   id: string
@@ -37,7 +38,7 @@ function LogoBadge({ event, dotClass }: { event: TimelineEvent; dotClass: string
       {event.logo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={event.logo}
+          src={assetPath(event.logo!)}
           alt={`Logo ${event.title}`}
           className="w-full h-full object-contain p-1.5"
         />
@@ -139,7 +140,7 @@ function TimelineCard({
         {event.image && (
           <div className="relative h-44 overflow-hidden">
             <motion.img
-              src={event.image}
+              src={assetPath(event.image!)}
               alt={event.title}
               className="w-full h-full object-cover"
               animate={{ scale: isActive ? 1.06 : 1, y: isActive ? -8 : 0 }}
