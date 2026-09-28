@@ -15,7 +15,7 @@ export default function CustomCursor() {
   const ringY = useSpring(mouseY, { stiffness: 110, damping: 18, mass: 0.12 })
 
   useEffect(() => {
-    if (!window.matchMedia('(pointer: fine)').matches) return
+    if (!window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) return
     setMounted(true)
 
     const onMove = (e: MouseEvent) => {
@@ -25,7 +25,7 @@ export default function CustomCursor() {
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement
-      setHovering(!!el.closest('a, button, [role="button"], .glass-hover, .card-hover'))
+      setHovering(!!el.closest('a, button, [role="button"]'))
     }
 
     const onDown = () => setClicking(true)

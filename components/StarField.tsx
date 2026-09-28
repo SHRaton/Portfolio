@@ -21,7 +21,9 @@ export default function StarField() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let animId: number
+    let animId = 0
+    let running = false
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let width = canvas.offsetWidth || window.innerWidth
     let height = canvas.offsetHeight || window.innerHeight
 
@@ -42,12 +44,16 @@ export default function StarField() {
     function draw() {
       if (!ctx || !canvas) return
 
-      ctx.fillStyle = 'rgba(10, 10, 15, 0.25)'
+      // Fade previous frame toward transparent (not toward a colour) so the
+      // aurora behind the canvas stays visible while streaks keep their trails
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'
       ctx.fillRect(0, 0, width, height)
+      ctx.globalCompositeOperation = 'source-over'
 
       for (const star of stars) {
         star.prevZ = star.z
-        star.z -= SPEED
+        if (!reduceMotion) star.z -= SPEED
 
         if (star.z <= 0) {
           star.x = Math.random() * width - cx
@@ -86,10 +92,26 @@ export default function StarField() {
         ctx.fill()
       }
 
-      animId = requestAnimationFrame(draw)
+      if (running) animId = requestAnimationFrame(draw)
     }
 
+    const start = () => {
+      if (running || reduceMotion) return
+      running = true
+      animId = requestAnimationFrame(draw)
+    }
+    const stop = () => {
+      running = false
+      cancelAnimationFrame(animId)
+    }
+
+    // Reduced motion: one static frame of stars. Otherwise animate only while visible.
     draw()
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) start()
+      else stop()
+    })
+    observer.observe(canvas)
 
     function onResize() {
       if (!canvas) return
@@ -97,12 +119,14 @@ export default function StarField() {
       height = canvas.offsetHeight || window.innerHeight
       canvas.width = width
       canvas.height = height
+      if (!running) draw()
     }
 
     window.addEventListener('resize', onResize)
 
     return () => {
-      cancelAnimationFrame(animId)
+      stop()
+      observer.disconnect()
       window.removeEventListener('resize', onResize)
     }
   }, [])
@@ -110,8 +134,9 @@ export default function StarField() {
   return (
     <canvas
       ref={canvasRef}
+      aria-hidden
       className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.75 }}
     />
   )
 }

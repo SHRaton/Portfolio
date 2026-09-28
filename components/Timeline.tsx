@@ -1,15 +1,32 @@
 'use client'
 
 import { SectionTitle } from './About'
-import Timeline3D, { TimelineEvent } from './ui/3d-interactive-timeline'
+import { ScrollTimeline, type TimelineItem, type TimelineKind } from './ui/scroll-timeline'
 import { useLanguage } from '@/lib/LanguageContext'
 import { ui } from '@/lib/i18n'
 
-type BilEvent = Omit<TimelineEvent, 'date' | 'title' | 'description' | 'category'> & {
-  date: { fr: string; en: string }
-  title: { fr: string; en: string }
-  description: { fr: string; en: string }
-  category: { fr: string; en: string }
+type Bil = { fr: string; en: string }
+
+interface BilEvent {
+  id: string
+  date: Bil
+  title: Bil
+  /** "Organisation · Place" */
+  subtitle: string
+  description: Bil
+  category: Bil
+  color?: string
+  image?: string
+  logo?: string
+  logoFallback?: string
+  logoBg?: 'light' | 'dark'
+  tags?: string[]
+}
+
+const KIND: Record<string, TimelineKind> = {
+  Formation: 'education',
+  Stage: 'internship',
+  Échange: 'exchange',
 }
 
 const bilEvents: BilEvent[] = [
@@ -24,8 +41,8 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Formation', en: 'Education' },
     color: 'fuchsia',
-    image: '/photos/melizan.jpg',
-    logo: '/logos/melizan.jpeg',
+    image: '/photos/melizan.webp',
+    logo: '/logos/melizan.webp',
     logoFallback: 'LP',
     tags: ['Maths', 'Physique-Chimie', 'Mention Bien'],
   },
@@ -40,8 +57,8 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Formation', en: 'Education' },
     color: 'violet',
-    image: '/photos/epitech.jpg',
-    logo: '/logos/epitech_logo.png',
+    image: '/photos/epitech.webp',
+    logo: '/logos/epitech_logo.webp',
     logoFallback: 'EP',
     tags: ['C', 'C++', 'Python', 'JavaScript', 'EIP', 'Milo'],
   },
@@ -56,8 +73,8 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Stage', en: 'Internship' },
     color: 'purple',
-    image: '/photos/quantic_dream.jpeg',
-    logo: '/logos/quantic_dream_logo.png',
+    image: '/photos/quantic_dream.webp',
+    logo: '/logos/quantic_dream_logo.webp',
     logoFallback: 'QD',
     tags: ['Full Stack', 'Jeu Vidéo', 'AAA', 'Paris'],
   },
@@ -72,8 +89,9 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Stage', en: 'Internship' },
     color: 'violet',
-    image: '/photos/eight_bamboos.jpg',
-    logo: '/logos/eight_bamboos_logo.png',
+    image: '/photos/eight_bamboos.webp',
+    logo: '/logos/eight_bamboos_logo.webp',
+    logoBg: 'dark',
     logoFallback: 'EB',
     tags: ['Full Stack', 'Jeu Indie', 'Web', 'Browser Game'],
   },
@@ -88,8 +106,8 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Stage', en: 'Internship' },
     color: 'purple',
-    image: '/photos/cyclife.jpg',
-    logo: '/logos/cyclife_logo.png',
+    image: '/photos/cyclife.webp',
+    logo: '/logos/cyclife_logo.webp',
     logoFallback: 'CD',
     tags: ['C#', 'BeepU Physics', '3D', 'Nuage de points', 'Moteur physique'],
   },
@@ -107,8 +125,8 @@ const bilEvents: BilEvent[] = [
     },
     category: { fr: 'Échange', en: 'Exchange' },
     color: 'fuchsia',
-    image: '/photos/keimyung.jpeg',
-    logo: '/logos/keimyung_logo.png',
+    image: '/photos/keimyung.webp',
+    logo: '/logos/keimyung_logo.webp',
     logoFallback: 'KU',
     tags: ['Big Data', 'Double diplôme', 'Corée du Sud', 'Échange universitaire'],
   },
@@ -118,23 +136,49 @@ export default function Timeline() {
   const { lang } = useLanguage()
   const t = ui[lang].timeline
 
-  const events: TimelineEvent[] = bilEvents.map(e => ({
-    ...e,
-    date: e.date[lang],
-    title: e.title[lang],
-    description: e.description[lang],
-    category: e.category[lang],
-  }))
+  const items: TimelineItem[] = bilEvents.map((e) => {
+    const [org, ...place] = e.subtitle.split(' · ')
+    return {
+      id: e.id,
+      year: e.date[lang],
+      kind: KIND[e.category.fr] ?? 'education',
+      category: e.category[lang],
+      title: e.title[lang],
+      org,
+      place: place.join(' · ') || undefined,
+      description: e.description[lang],
+      image: e.image,
+      logo: e.logo,
+      logoBg: e.logoBg,
+      tags: e.tags,
+    }
+  })
 
   return (
     <section id="parcours" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <SectionTitle label={t.label} title={t.title} />
-        <p className="text-slate-500 text-sm mt-3">
-          {lang === 'fr' ? 'Survolez une carte pour la développer.' : 'Hover a card to expand it.'}
-        </p>
-        <div className="mt-12">
-          <Timeline3D events={events} />
+        <div className="mt-14 max-w-5xl">
+          <ScrollTimeline
+            items={items}
+            end={
+              lang === 'fr'
+                ? {
+                    year: '2026',
+                    title: 'Et maintenant ?',
+                    text: "Dernière année à Epitech — je cherche un stage de fin d'études pour mettre tout ça en pratique dans une équipe.",
+                    cta: 'Me contacter',
+                    href: '#contact',
+                  }
+                : {
+                    year: '2026',
+                    title: "What's next?",
+                    text: 'Final year at Epitech — looking for a final-year internship to put all of this to work in a team.',
+                    cta: 'Get in touch',
+                    href: '#contact',
+                  }
+            }
+          />
         </div>
       </div>
     </section>

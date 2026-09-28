@@ -16,14 +16,14 @@ interface InfiniteSliderProps {
 export function InfiniteSlider({ logos, speed = 28, className = '' }: InfiniteSliderProps) {
   return (
     <div
-      className={`w-full overflow-hidden ${className}`}
+      className={`marquee w-full overflow-hidden ${className}`}
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
       }}
     >
       <div
-        className="flex w-max items-end gap-5 pb-1"
+        className="marquee-track flex w-max items-end gap-5 pb-1"
         style={{ animation: `slider-marquee ${speed}s linear infinite` }}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'paused')}
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'running')}
@@ -31,7 +31,9 @@ export function InfiniteSlider({ logos, speed = 28, className = '' }: InfiniteSl
         {[...logos, ...logos].map((logo, i) => (
           <div
             key={i}
-            className="group relative h-[88px] w-[120px] shrink-0 flex flex-col items-center justify-center gap-2 rounded-xl cursor-default overflow-hidden"
+            // The second copy only exists to loop seamlessly — hide it from screen readers
+            aria-hidden={i >= logos.length || undefined}
+            className={`${i >= logos.length ? 'marquee-dup ' : ''}group relative h-[88px] w-[120px] shrink-0 flex flex-col items-center justify-center gap-2 rounded-xl cursor-default overflow-hidden`}
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             {/* Violet glow on hover */}
@@ -47,13 +49,13 @@ export function InfiniteSlider({ logos, speed = 28, className = '' }: InfiniteSl
             {/* Logo */}
             <img
               src={logo.src}
-              alt={logo.alt}
+              alt=""
               className="relative z-10 h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
               loading="lazy"
             />
 
             {/* Name label */}
-            <span className="relative z-10 text-[10px] font-mono text-slate-600 group-hover:text-violet-400 transition-colors duration-300 tracking-wide">
+            <span className="relative z-10 text-xs font-mono text-slate-400 group-hover:text-violet-300 transition-colors duration-300 tracking-wide">
               {logo.alt}
             </span>
           </div>

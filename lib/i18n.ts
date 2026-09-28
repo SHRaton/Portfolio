@@ -9,7 +9,7 @@ export const ui = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'DISPONIBLE',
+      badge: 'DISPONIBLE POUR UN STAGE DE FIN D\'ÉTUDES',
       greeting: 'Bonjour, je suis',
       desc1: 'Étudiant à ',
       desc2: ', passionné par le développement système, les jeux et la cybersécurité. Je construis des projets ',
@@ -17,12 +17,16 @@ export const ui = {
       desc3: ' en C, C++, Python et JavaScript.',
       cta1: 'Voir mes projets',
       cta2: 'Me contacter',
+      cv: 'Télécharger mon CV',
+      statProjects: 'Projets',
+      statTech: 'Technologies',
       statYears: 'Ans Epitech',
     },
     about: {
       label: 'À PROPOS',
       title: 'Qui suis-je ?',
       techLabel: 'TECHNOLOGIES',
+      role: 'Étudiant',
     },
     timeline: {
       label: 'PARCOURS',
@@ -35,7 +39,7 @@ export const ui = {
     contact: {
       label: 'CONTACT',
       title: 'Travaillons ensemble',
-      p1: 'Je suis ouvert aux opportunités de stage',
+      p1: 'Je recherche un stage de fin d\'études.',
       p2: "Que ce soit pour un projet de jeu, une application système, une webapp ou un défi en cybersécurité — n'hésitez pas à me contacter.",
     },
     footer: {
@@ -50,7 +54,7 @@ export const ui = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'AVAILABLE',
+      badge: 'AVAILABLE FOR A FINAL-YEAR INTERNSHIP',
       greeting: 'Hello, I am',
       desc1: 'Student at ',
       desc2: ', passionate about systems development, game dev and cybersecurity. I build ',
@@ -58,12 +62,16 @@ export const ui = {
       desc3: ' projects in C, C++, Python and JavaScript.',
       cta1: 'View my projects',
       cta2: 'Contact me',
+      cv: 'Download my resume',
+      statProjects: 'Projects',
+      statTech: 'Technologies',
       statYears: 'Years at Epitech',
     },
     about: {
       label: 'ABOUT',
       title: 'Who am I?',
       techLabel: 'TECHNOLOGIES',
+      role: 'Student',
     },
     timeline: {
       label: 'TIMELINE',
@@ -76,7 +84,7 @@ export const ui = {
     contact: {
       label: 'CONTACT',
       title: "Let's work together",
-      p1: 'I am open to internship opportunities',
+      p1: 'I am looking for a final-year internship.',
       p2: "Whether it's a game project, a systems application, a web app or a cybersecurity challenge — feel free to reach out.",
     },
     footer: {

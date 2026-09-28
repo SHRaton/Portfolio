@@ -18,6 +18,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (saved === 'fr' || saved === 'en') setLang(saved)
   }, [])
 
+  // Keep <html lang> in sync so screen readers and translators use the right language
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
+
   const toggleLang = () =>
     setLang(prev => {
       const next = prev === 'fr' ? 'en' : 'fr'

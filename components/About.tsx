@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { GraduationCap } from 'lucide-react'
 import { InfiniteSlider, SliderLogo } from './ui/infinite-slider'
 import { assetPath } from '@/lib/assetPath'
+import { TextScramble } from './ui/text-scramble'
 import { useLanguage } from '@/lib/LanguageContext'
 import { ui } from '@/lib/i18n'
 
@@ -78,11 +80,13 @@ export default function About() {
                   {', tout en découvrant une culture fascinante.'}
                 </p>
                 <p className="text-slate-400 leading-relaxed">
-                  {'Mon parcours professionnel m\'a permis de travailler sur des projets concrets, notamment au sein de studios de jeux vidéo et d\'entreprises technologiques, où j\'ai pu appliquer mes compétences en développement logiciel '}
+                  {'Mon parcours professionnel m\'a permis de travailler sur des projets concrets, notamment au sein de studios de jeux vidéo et d\'entreprises technologiques, où j\'ai pu appliquer mes compétences en développement '}
+                  <span className="text-violet-400">logiciel</span>
+                  {' ainsi qu\'en développement '}
                   <span className="text-violet-400">backend</span>
                   {' et '}
                   <span className="text-violet-400">frontend</span>
-                  {' en résolution de '}
+                  {' dans le but de résoudre des '}
                   <span className="text-violet-400">problèmes complexes</span>
                   {'.'}
                 </p>
@@ -129,22 +133,22 @@ export default function About() {
                 <img
                   src={assetPath('/photo.jpg')}
                   alt="Alexandre Vittenet"
+                  width={288}
+                  height={288}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
 
               <div className="absolute -bottom-4 -right-4 glass rounded-2xl px-4 py-2 border border-purple-500/30">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">💻</span>
+                  <GraduationCap className="w-6 h-6 text-violet-300" aria-hidden />
                   <div>
                     <div className="text-xs font-semibold text-white">Epitech</div>
-                    <div className="text-xs text-slate-400">Student</div>
+                    <div className="text-xs text-slate-400">{t.role}</div>
                   </div>
                 </div>
-              </div>
-
-              <div className="absolute -top-4 -left-4 glass rounded-xl px-3 py-1.5 border border-violet-500/30 font-mono text-xs text-violet-300">
-                21
               </div>
             </div>
           </div>
@@ -152,7 +156,7 @@ export default function About() {
 
         {/* Tech logos marquee */}
         <div className="mt-16">
-          <p className="text-xs font-mono text-slate-600 tracking-widest mb-6 text-center">{t.techLabel}</p>
+          <p className="text-xs font-mono text-slate-400 tracking-widest mb-6 text-center">{t.techLabel}</p>
           <InfiniteSlider logos={logos} speed={30} />
         </div>
       </div>
@@ -163,7 +167,7 @@ export default function About() {
 export function SectionTitle({ label, title }: { label: string; title: string }) {
   return (
     <div>
-      <span className="font-mono text-xs tracking-widest text-purple-400">{label}</span>
+      <TextScramble text={label} duration={700} className="font-mono text-xs tracking-widest text-purple-400" />
       <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">{title}</h2>
       <div className="mt-3 w-16 h-1 rounded-full bg-gradient-to-r from-violet-400 to-purple-700" />
     </div>

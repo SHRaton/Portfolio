@@ -1,3 +1,8 @@
+import {
+  ChartLine, Gamepad2, Globe, GraduationCap, Rocket, ShieldCheck, Sparkles, Swords, Tent, Workflow, Zap,
+  type LucideIcon,
+} from 'lucide-react'
+
 export interface Project {
   title: string
   slug: string
@@ -11,7 +16,7 @@ export interface Project {
   githubUrl: string
   homepageUrl?: string
   featured: boolean
-  icon: string
+  icon: LucideIcon
   category: string
 }
 
@@ -30,7 +35,7 @@ export const projects: Project[] = [
     languageColor: '#3178c6',
     githubUrl: 'https://github.com/orgs/Education-Milo/repositories',
     featured: true,
-    icon: '🎓',
+    icon: GraduationCap,
     category: 'Full-Stack',
     homepageUrl: 'https://milo-education.fr',
   },
@@ -48,7 +53,7 @@ export const projects: Project[] = [
     languageColor: '#f34b7d',
     githubUrl: 'https://github.com/SHRaton/B-CPP-500-MAR-5-2-rtype-jeremy.bisson',
     featured: true,
-    icon: '🚀',
+    icon: Rocket,
     category: 'Game Dev',
   },
   {
@@ -65,7 +70,7 @@ export const projects: Project[] = [
     languageColor: '#3572A5',
     githubUrl: 'https://github.com/SHRaton/B-DEV-500-MAR-5-1-area-noam.bouriche',
     featured: true,
-    icon: '🔗',
+    icon: Workflow,
     category: 'Full-Stack',
   },
   {
@@ -82,7 +87,7 @@ export const projects: Project[] = [
     languageColor: '#555555',
     githubUrl: 'https://github.com/SHRaton/B-YEP-400-MAR-4-1-zappy-theo.berget',
     featured: true,
-    icon: '🌐',
+    icon: Globe,
     category: 'Réseau',
   },
   {
@@ -99,7 +104,7 @@ export const projects: Project[] = [
     languageColor: '#f34b7d',
     githubUrl: 'https://github.com/SHRaton/B-OOP-400-MAR-4-1-raytracer-noam.bouriche',
     featured: false,
-    icon: '✨',
+    icon: Sparkles,
     category: 'Graphisme',
   },
   {
@@ -116,7 +121,7 @@ export const projects: Project[] = [
     languageColor: '#f34b7d',
     githubUrl: 'https://github.com/SHRaton/B-CNA-410-MAR-4-1-groundhog-meddi.gueran',
     featured: false,
-    icon: '📊',
+    icon: ChartLine,
     category: 'Mathématiques',
   },
   {
@@ -133,7 +138,7 @@ export const projects: Project[] = [
     languageColor: '#f1e05a',
     githubUrl: 'https://github.com/SHRaton/B-SVR-500-MAR-5-1-survivor-theo.berget',
     featured: false,
-    icon: '🏕️',
+    icon: Tent,
     category: 'Full-Stack',
   },
   {
@@ -150,7 +155,7 @@ export const projects: Project[] = [
     languageColor: '#f34b7d',
     githubUrl: 'https://github.com/SHRaton/B-OOP-400-MAR-4-1-tekspice-alexandre.vittenet',
     featured: false,
-    icon: '⚡',
+    icon: Zap,
     category: 'Système',
   },
   {
@@ -167,7 +172,7 @@ export const projects: Project[] = [
     languageColor: '#555555',
     githubUrl: 'https://github.com/SHRaton/RPGG',
     featured: false,
-    icon: '⚔️',
+    icon: Swords,
     category: 'Game Dev',
   },
   {
@@ -184,7 +189,7 @@ export const projects: Project[] = [
     languageColor: '#89e051',
     githubUrl: 'https://github.com/SHRaton/CyberSec_Tricks',
     featured: false,
-    icon: '🔐',
+    icon: ShieldCheck,
     category: 'CyberSec',
   },
   {
@@ -201,7 +206,7 @@ export const projects: Project[] = [
     languageColor: '#555555',
     githubUrl: 'https://github.com/SHRaton/Jam-Itachi-Amaterastu',
     featured: false,
-    icon: '🎌',
+    icon: Gamepad2,
     category: 'Game Dev',
   },
 ]
