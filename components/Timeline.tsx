@@ -166,14 +166,14 @@ export default function Timeline() {
                 ? {
                     year: '2026',
                     title: 'Et maintenant ?',
-                    text: "Dernière année à Epitech — je cherche un stage de fin d'études pour mettre tout ça en pratique dans une équipe.",
+                    text: "Dernière année à Epitech — je cherche un stage de fin d'études de 6 mois à partir de mars 2027 pour mettre tout ça en pratique dans une équipe.",
                     cta: 'Me contacter',
                     href: '#contact',
                   }
                 : {
                     year: '2026',
                     title: "What's next?",
-                    text: 'Final year at Epitech — looking for a final-year internship to put all of this to work in a team.',
+                    text: 'Final year at Epitech — looking for a 6-month final-year internship from March 2027 to put all of this to work in a team.',
                     cta: 'Get in touch',
                     href: '#contact',
                   }

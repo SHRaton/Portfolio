@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://shraton.github.io'),
+  metadataBase: new URL('https://alexandre-vittenet.fr'),
   title: 'Alexandre Vittenet — Portfolio',
   description: 'Étudiant Epitech — Développeur passionné par les systèmes, les jeux et la cybersécurité.',
   keywords: ['Portfolio', 'Alexandre Vittenet', 'Epitech', 'C++', 'Developer', 'Game Dev'],
@@ -22,12 +22,15 @@ export const metadata: Metadata = {
     description: 'Étudiant Epitech — Développeur passionné par les systèmes, les jeux et la cybersécurité.',
     type: 'website',
     locale: 'fr_FR',
-    url: '/Portfolio/',
-    images: [{ url: '/Portfolio/og.png', width: 1200, height: 630, alt: 'Alexandre Vittenet — Portfolio' }],
+    url: '/',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Alexandre Vittenet — Portfolio' }],
+  },
+  alternates: {
+    canonical: '/',
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/Portfolio/og.png'],
+    images: ['/og.png'],
   },
 }
 

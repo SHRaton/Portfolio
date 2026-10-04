@@ -11,8 +11,10 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100)
   const mouseY = useMotionValue(-100)
 
-  const ringX = useSpring(mouseX, { stiffness: 110, damping: 18, mass: 0.12 })
-  const ringY = useSpring(mouseY, { stiffness: 110, damping: 18, mass: 0.12 })
+  // Stiff, slightly over-damped spring: the ring trails by ~50 ms without overshooting
+  const ringSpring = { stiffness: 600, damping: 30, mass: 0.1 }
+  const ringX = useSpring(mouseX, ringSpring)
+  const ringY = useSpring(mouseY, ringSpring)
 
   useEffect(() => {
     if (!window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) return

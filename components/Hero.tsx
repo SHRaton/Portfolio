@@ -39,9 +39,9 @@ export default function Hero() {
         ref={containerRef}
         className="section-animate relative z-10 max-w-5xl mx-auto w-full flex flex-col items-center text-center gap-6 md:gap-8"
       >
-        <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-violet-400/25 bg-violet-500/10">
+        <div className="flex items-center gap-3 px-4 py-1.5 rounded-2xl sm:rounded-full border border-violet-400/25 bg-violet-500/10 max-w-full">
           <span className="w-2 h-2 shrink-0 rounded-full bg-emerald-400 animate-pulse" aria-hidden />
-          <span className="font-mono text-xs md:text-sm text-violet-200 tracking-widest">{t.badge}</span>
+          <span className="font-mono text-xs md:text-sm text-violet-200 tracking-wide sm:tracking-widest text-center">{t.badge}</span>
         </div>
 
         <div>

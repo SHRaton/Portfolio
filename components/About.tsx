@@ -131,7 +131,7 @@ export default function About() {
               <div className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden glass glow-purple border-2 border-purple-500/30">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={assetPath('/photo.jpg')}
+                  src={assetPath('/photo.jpeg')}
                   alt="Alexandre Vittenet"
                   width={288}
                   height={288}

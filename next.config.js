@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
+// Served from the root of https://alexandre-vittenet.fr (GitHub Pages custom domain),
+// so no basePath. lib/assetPath.ts still honours NEXT_PUBLIC_BASE_PATH if one is ever set.
 const nextConfig = {
   output: 'export',
-  basePath: '/Portfolio',
   trailingSlash: true,
   images: {
     unoptimized: true,
-  },
-  env: {
-    NEXT_PUBLIC_BASE_PATH: '/Portfolio',
   },
 }
 

@@ -175,38 +175,4 @@ export const projects: Project[] = [
     icon: Swords,
     category: 'Game Dev',
   },
-  {
-    title: 'CyberSec Tricks',
-    slug: 'cybersec',
-    description: 'Collection de techniques et notes de cybersécurité — outils et exploits.',
-    descriptionEn: 'Collection of cybersecurity techniques and notes — tools and exploits.',
-    longDesc:
-      'Repository de ressources personnelles en cybersécurité : techniques offensives et défensives, notes de CTF, outils de pentest, et découvertes sur les vulnérabilités systèmes.',
-    longDescEn:
-      'Personal cybersecurity resource repository: offensive and defensive techniques, CTF notes, pentesting tools, and findings on system vulnerabilities.',
-    tags: ['Cybersécurité', 'CTF', 'Pentest', 'Outils', 'Shell'],
-    language: 'Shell',
-    languageColor: '#89e051',
-    githubUrl: 'https://github.com/SHRaton/CyberSec_Tricks',
-    featured: false,
-    icon: ShieldCheck,
-    category: 'CyberSec',
-  },
-  {
-    title: 'Jam Itachi',
-    slug: 'jam-itachi',
-    description: 'Projet Game Jam — jeu développé en 48h en C avec SFML.',
-    descriptionEn: 'Game Jam project — game built in 48h in C with SFML.',
-    longDesc:
-      "Jeu créé dans le cadre d'une Game Jam sous contrainte de temps. Développé en C avec gestion des sprites, animations, et collisions. Une expérience de développement intensif sous pression.",
-    longDescEn:
-      'Game created during a time-constrained Game Jam. Developed in C with sprite management, animations and collisions. An intensive development experience under pressure.',
-    tags: ['C', 'Game Jam', 'SFML', 'Sprite', 'Game Dev'],
-    language: 'C',
-    languageColor: '#555555',
-    githubUrl: 'https://github.com/SHRaton/Jam-Itachi-Amaterastu',
-    featured: false,
-    icon: Gamepad2,
-    category: 'Game Dev',
-  },
 ]

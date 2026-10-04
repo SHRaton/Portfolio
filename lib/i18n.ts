@@ -9,7 +9,7 @@ export const ui = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'DISPONIBLE POUR UN STAGE DE FIN D\'ÉTUDES',
+      badge: 'DISPONIBLE POUR UN STAGE DE FIN D\'ÉTUDES DE 6 MOIS À PARTIR DE MARS 2027',
       greeting: 'Bonjour, je suis',
       desc1: 'Étudiant à ',
       desc2: ', passionné par le développement système, les jeux et la cybersécurité. Je construis des projets ',
@@ -39,7 +39,7 @@ export const ui = {
     contact: {
       label: 'CONTACT',
       title: 'Travaillons ensemble',
-      p1: 'Je recherche un stage de fin d\'études.',
+      p1: 'Je recherche un stage de fin d\'études de 6 mois, à partir de mars 2027.',
       p2: "Que ce soit pour un projet de jeu, une application système, une webapp ou un défi en cybersécurité — n'hésitez pas à me contacter.",
     },
     footer: {
@@ -54,7 +54,7 @@ export const ui = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'AVAILABLE FOR A FINAL-YEAR INTERNSHIP',
+      badge: 'AVAILABLE FOR A 6-MONTH FINAL-YEAR INTERNSHIP FROM MARCH 2027',
       greeting: 'Hello, I am',
       desc1: 'Student at ',
       desc2: ', passionate about systems development, game dev and cybersecurity. I build ',
@@ -84,7 +84,7 @@ export const ui = {
     contact: {
       label: 'CONTACT',
       title: "Let's work together",
-      p1: 'I am looking for a final-year internship.',
+      p1: 'I am looking for a 6-month final-year internship, starting March 2027.',
       p2: "Whether it's a game project, a systems application, a web app or a cybersecurity challenge — feel free to reach out.",
     },
     footer: {
