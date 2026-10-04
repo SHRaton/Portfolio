@@ -18,8 +18,8 @@ interface TextScrambleProps {
 
 /**
  * Cipher-style decode: each character cycles through random glyphs, then locks in
- * left to right. The real text is kept in an invisible layer so the layout never
- * shifts, and screen readers only ever read the final text.
+ * left to right. The overlay sits on top of the (visually hidden) real text, so the
+ * layout never shifts and the text exists exactly once in the DOM.
  */
 export function TextScramble({
   text,
@@ -28,53 +28,67 @@ export function TextScramble({
   delay = 0,
   scrambleOnHover = false,
 }: TextScrambleProps) {
-  const [display, setDisplay] = useState(text)
+  // null = not animating: only the real text is rendered (that is also what the static HTML contains)
+  const [display, setDisplay] = useState<string | null>(null)
   const frame = useRef(0)
   const running = useRef(false)
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.4 })
 
-  const run = useCallback(() => {
-    if (running.current) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    running.current = true
-    const start = performance.now()
-    const tick = (now: number) => {
-      const progress = Math.min(1, (now - start) / duration)
-      const locked = Math.floor(progress * text.length)
+  const scramble = useCallback(
+    (locked: number) => {
       let out = ''
       for (let i = 0; i < text.length; i++) {
         const ch = text[i]
         out += i < locked || ch === ' ' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]
       }
-      setDisplay(out)
-      if (progress < 1) frame.current = requestAnimationFrame(tick)
-      else running.current = false
-    }
-    frame.current = requestAnimationFrame(tick)
-  }, [text, duration])
+      return out
+    },
+    [text]
+  )
+
+  const run = useCallback(
+    (wait = 0) => {
+      if (running.current) return
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      running.current = true
+      setDisplay(scramble(0))
+      const begin = performance.now() + wait
+      const tick = (now: number) => {
+        const progress = Math.max(0, Math.min(1, (now - begin) / duration))
+        if (progress >= 1) {
+          running.current = false
+          setDisplay(null)
+          return
+        }
+        setDisplay(scramble(Math.floor(progress * text.length)))
+        frame.current = requestAnimationFrame(tick)
+      }
+      frame.current = requestAnimationFrame(tick)
+    },
+    [scramble, duration, text.length]
+  )
 
   useEffect(() => {
     if (!inView) return
-    const t = window.setTimeout(run, delay)
+    run(delay)
     return () => {
-      window.clearTimeout(t)
       cancelAnimationFrame(frame.current)
       running.current = false
-      setDisplay(text)
+      setDisplay(null)
     }
-  }, [inView, run, delay, text])
+  }, [inView, run, delay])
 
   return (
-    // className goes on the text layers themselves (not the wrapper) so effects like
-    // background-clip: text (gradient text) apply to the visible, absolutely-positioned layer
-    <span ref={ref} className="relative inline-block" onMouseEnter={scrambleOnHover ? run : undefined}>
-      <span className={`invisible ${className}`} aria-hidden>
-        {text}
-      </span>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden className={`absolute inset-0 whitespace-nowrap ${className}`}>
-        {display}
-      </span>
+    // The real text is the only text in the HTML (crawlers, text extractors and screen readers
+    // read it once). While animating it is hidden visually and an aria-hidden overlay shows the
+    // glyphs; className goes on both layers so background-clip: text gradients still apply.
+    <span ref={ref} className="relative inline-block" onMouseEnter={scrambleOnHover ? () => run() : undefined}>
+      <span className={`${className} ${display !== null ? 'opacity-0' : ''}`}>{text}</span>
+      {display !== null && (
+        <span aria-hidden className={`absolute inset-0 whitespace-nowrap ${className}`}>
+          {display}
+        </span>
+      )}
     </span>
   )
 }

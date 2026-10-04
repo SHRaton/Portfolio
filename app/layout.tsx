@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import CustomCursor from '@/components/CustomCursor'
 import Providers from '@/components/Providers'
+import { jsonLd, profileJsonLd } from '@/lib/structuredData'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const jetbrainsMono = JetBrains_Mono({
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="fr" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
       {/* Extensions (e.g. Video Speed Controller) inject classes on <body> before hydration */}
       <body className="antialiased noise" suppressHydrationWarning>
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(profileJsonLd)} />
         <Providers>
           <CustomCursor />
           {children}

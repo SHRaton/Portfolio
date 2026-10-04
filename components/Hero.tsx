@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { Download } from 'lucide-react'
 import StarField from './StarField'
 import { AuroraShader } from './ui/aurora-shader'
@@ -8,17 +7,11 @@ import { TextScramble } from './ui/text-scramble'
 import { useLanguage } from '@/lib/LanguageContext'
 import { ui } from '@/lib/i18n'
 import { assetPath } from '@/lib/assetPath'
+import { projects } from '@/lib/projects'
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
   const { lang } = useLanguage()
   const t = ui[lang].hero
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    setTimeout(() => el.classList.add('visible'), 100)
-  }, [])
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 pb-28 px-6 overflow-hidden">
@@ -35,9 +28,9 @@ export default function Hero() {
       </div>
       <StarField />
 
+      {/* No fade-in here: the hero is above the fold, hiding it until hydration delayed LCP by ~1.7s on mobile */}
       <div
-        ref={containerRef}
-        className="section-animate relative z-10 max-w-5xl mx-auto w-full flex flex-col items-center text-center gap-6 md:gap-8"
+        className="relative z-10 max-w-5xl mx-auto w-full flex flex-col items-center text-center gap-6 md:gap-8"
       >
         <div className="flex items-center gap-3 px-4 py-1.5 rounded-2xl sm:rounded-full border border-violet-400/25 bg-violet-500/10 max-w-full">
           <span className="w-2 h-2 shrink-0 rounded-full bg-emerald-400 animate-pulse" aria-hidden />
@@ -47,7 +40,7 @@ export default function Hero() {
         <div>
           <p className="text-slate-400 font-mono text-xs md:text-sm mb-3 md:mb-4 tracking-wider">{t.greeting}</p>
           <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none">
-            <TextScramble text="Alexandre" className="text-white" delay={250} scrambleOnHover />
+            <TextScramble text="Alexandre" className="text-white" delay={250} scrambleOnHover />{' '}
             <br />
             <TextScramble text="Vittenet" className="gradient-text" delay={450} duration={1100} scrambleOnHover />
           </h1>
@@ -76,9 +69,9 @@ export default function Hero() {
 
         <ul className="flex gap-4 md:gap-8 pt-2 md:pt-4">
           {[
-            { value: '20+', label: t.statProjects, href: '#projects' },
+            { value: String(projects.length), label: t.statProjects, href: '#projects' },
             { value: '25+', label: t.statTech, href: '#about' },
-            { value: '4+', label: t.statYears, href: '#parcours' },
+            { value: t.statYearsValue, label: t.statYears, href: '#parcours' },
           ].map(({ value, label, href }, i) => (
             <li key={href} className="flex gap-4 md:gap-8">
               {i > 0 && <span className="w-px bg-white/10" aria-hidden />}
