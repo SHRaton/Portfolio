@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- "AV" drawn as strokes so it renders the same everywhere (no font dependency) -->
+  <g fill="none" stroke="#0a0a0f" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 47 L19.5 17 L30 47"/>
+    <path d="M13.2 37 H25.8"/>
+    <path d="M34 17 L44.5 47 L55 17"/>
+  </g>
+</svg>
