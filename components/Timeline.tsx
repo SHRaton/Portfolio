@@ -129,8 +129,8 @@ const bilEvents: BilEvent[] = [
       en: 'Keimyung University · Daegu, South Korea · 2025 – 2026',
     },
     description: {
-      fr: "Année d'échange dans le cadre du cursus Epitech, en double diplôme Big Data : intelligence artificielle, analyse statistique, cybersécurité, transformation digitale et coréen.",
-      en: 'Exchange year as part of the Epitech curriculum, earning a Big Data dual degree: artificial intelligence, statistical analysis, cybersecurity, digital transformation and Korean.',
+      fr: "Année d'échange dans le cadre du cursus Epitech, en double diplôme Big Data : intelligence artificielle, analyse statistique, cybersécurité et transformation digitale.",
+      en: 'Exchange year as part of the Epitech curriculum, earning a Big Data dual degree: artificial intelligence, statistical analysis, cybersecurity and digital transformation.',
     },
     category: { fr: 'Échange', en: 'Exchange' },
     color: 'fuchsia',
