@@ -12,6 +12,8 @@ import { assetPath } from '@/lib/assetPath'
 type ImageMap = Record<string, string[]>
 
 const ALL = '__all__'
+// Stills shown when hovering a card; the full set (incl. animated captures) is in the dialog
+const HOVER_PREVIEW_COUNT = 4
 
 export default function Projects({ images }: { images: ImageMap }) {
   const { lang } = useLanguage()
@@ -141,18 +143,23 @@ function ProjectCard({
   onOpen: (slug: string, el: HTMLElement) => void
 }) {
   const [hovered, setHovered] = useState(false)
+  const [everHovered, setEverHovered] = useState(false)
   const [frame, setFrame] = useState(0)
   const reduceMotion = useReducedMotion()
 
-  // Flip through the screenshots while the card is hovered
+  // Hover preview: only the first few stills (heavy animated captures come last and are left for
+  // the dialog), and only fetched once the card is hovered, so the grid loads just one cover each
+  const preview = images.slice(0, HOVER_PREVIEW_COUNT)
+  const loaded = everHovered ? preview : preview.slice(0, 1)
+
   useEffect(() => {
-    if (!hovered || images.length < 2 || reduceMotion) {
+    if (!hovered || preview.length < 2 || reduceMotion) {
       setFrame(0)
       return
     }
-    const id = window.setInterval(() => setFrame((f) => (f + 1) % images.length), 1100)
+    const id = window.setInterval(() => setFrame((f) => (f + 1) % preview.length), 1100)
     return () => window.clearInterval(id)
-  }, [hovered, images.length, reduceMotion])
+  }, [hovered, preview.length, reduceMotion])
 
   const description = lang === 'fr' ? p.description : p.descriptionEn
 
@@ -160,14 +167,17 @@ function ProjectCard({
     <button
       type="button"
       onClick={(e) => onOpen(p.slug, e.currentTarget)}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => {
+        setHovered(true)
+        setEverHovered(true)
+      }}
       onMouseLeave={() => setHovered(false)}
       aria-haspopup="dialog"
       className="spotlight group w-full h-full text-left rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-violet-400/40 transition-colors flex flex-col"
     >
       <motion.span layoutId={`cover-${p.slug}`} className="relative block w-full aspect-video overflow-hidden">
         {images.length > 0 ? (
-          images.map((src, i) => (
+          loaded.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={src}
@@ -197,12 +207,12 @@ function ProjectCard({
             {images.length}
           </span>
         )}
-        {images.length > 1 && (
+        {preview.length > 1 && (
           <span
             className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
             aria-hidden
           >
-            {images.map((src, i) => (
+            {preview.map((src, i) => (
               <span key={src} className={`h-1 rounded-full transition-all ${i === frame ? 'w-4 bg-white' : 'w-1.5 bg-white/40'}`} />
             ))}
           </span>
